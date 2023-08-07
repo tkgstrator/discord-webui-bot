@@ -15,6 +15,8 @@ import { Upscaler } from "./dto/upscaler.dto.js";
 import { UpscalerRequest } from "./requests/upscaler.js";
 import { GetSDOptionsRequest, SetSDOptionsRequest } from "./requests/options.js";
 import { SDOptions } from "./dto/options.dto.js";
+import { Sampler } from "./dto/sampler.dto.js";
+import { SamplerRequest } from "./requests/sampler.js";
 
 dotenv.config();
 
@@ -41,6 +43,10 @@ export class SDClient {
     
     async get_sd_vae(): Promise<SDVae[]> {
         return this.request(new SDVaeRequest())
+    }
+    
+    async get_samplers(): Promise<Sampler[]> {
+        return this.request(new SamplerRequest())
     }
     
     async get_upscalers(): Promise<Upscaler[]> {
