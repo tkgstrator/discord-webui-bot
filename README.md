@@ -1,5 +1,22 @@
 ## Stable Journey Bot
 
+Discord bot client for AUTOMATIC1111's [stable-diffusion-webui](https://github.com/AUTOMATIC1111/stable-diffusion-webui).
+
+### Features
+
+- [ ] sdapi/v1/txt2img
+- [ ] sdapi/v1/img2img
+- [ ] sdapi/v1/progress
+- [ ] sdapi/v1/upscalers
+- [ ] sdapi/v1/interrupt
+- [ ] sdapi/v1/skip
+- [ ] sdapi/v1/options
+- [ ] sdapi/v1/samplers
+- [ ] sdapi/v1/sd-va
+- [ ] sdapi/v1/system-info/status
+- [ ] sdapi/v1/refresh-checkpoints
+- [ ] sdapi/v1/refresh-vae
+
 ## Get started
 
 Set additional launch flag for stable diffusion webui
