@@ -10,12 +10,12 @@ Discord bot client for AUTOMATIC1111's [stable-diffusion-webui](https://github.c
     - [ ] Prompt
     - [ ] Negative prompt
     - [ ] Batch size
-- [ ] Status(Options)
-- [ ] Switch(Options)
+- [x] Status(Options)
+- [x] Switch(Options)
     - [ ] Checkpoint
     - [ ] Vae
-    - [ ] CLIP_stop_at_last_layers
-    - [ ] eta_noise_seed_delta
+    - [x] CLIP_stop_at_last_layers
+    - [x] eta_noise_seed_delta
 - [ ] Random(Txt2Img)
     - [ ] NSFW
     - [ ] SFW
