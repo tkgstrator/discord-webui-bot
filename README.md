@@ -4,18 +4,19 @@ Discord bot client for AUTOMATIC1111's [stable-diffusion-webui](https://github.c
 
 ### Features
 
-- [ ] sdapi/v1/txt2img
-- [ ] sdapi/v1/img2img
-- [ ] sdapi/v1/progress
-- [ ] sdapi/v1/upscalers
-- [ ] sdapi/v1/interrupt
-- [ ] sdapi/v1/skip
-- [ ] sdapi/v1/options
-- [ ] sdapi/v1/samplers
-- [ ] sdapi/v1/sd-va
-- [ ] sdapi/v1/system-info/status
-- [ ] sdapi/v1/refresh-checkpoints
-- [ ] sdapi/v1/refresh-vae
+- [x] `sdapi/v1/txt2img`
+- [ ] `sdapi/v1/img2img`
+- [ ] `sdapi/v1/progress`
+- [ ] `sdapi/v1/upscalers`
+- [ ] `sdapi/v1/interrupt`
+- [ ] `sdapi/v1/skip`
+- [ ] `sdapi/v1/options`
+- [ ] `sdapi/v1/samplers`
+- [ ] `sdapi/v1/sd-va`
+- [x] `sdapi/v1/sd-models`
+- [ ] `sdapi/v1/system-info/status`
+- [ ] `sdapi/v1/refresh-checkpoints`
+- [ ] `sdapi/v1/refresh-vae`
 
 ## Get started
 
