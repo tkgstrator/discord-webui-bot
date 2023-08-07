@@ -10,6 +10,7 @@ Discord bot client for AUTOMATIC1111's [stable-diffusion-webui](https://github.c
     - [ ] Prompt
     - [ ] Negative prompt
     - [ ] Batch size
+- [ ] Status(Options)
 - [ ] Switch(Options)
     - [ ] Checkpoint
     - [ ] Vae

@@ -2,7 +2,7 @@ import { Expose } from "class-transformer";
 
 export class SDOptions {
     @Expose({ name: "CLIP_stop_at_last_layers"})
-    CLIP_stop_at_last_layers: number
+    CLIP_stop_at_last_layers?: number
     // clip_skip: number;
     // ESRGAN_tile: number;
     // ESRGAN_tile_overlap: number;
@@ -40,7 +40,7 @@ export class SDOptions {
     // eta_ancestral: number;
     // eta_ddim: number;
     @Expose()
-    eta_noise_seed_delta: number;
+    eta_noise_seed_delta?: number;
     // export_for_4chan: boolean;
     // extra_networks_add_text_separator: string;
     // extra_networks_card_height: number;
@@ -164,10 +164,10 @@ export class SDOptions {
     // sd_hypernetwork: string;
     // sd_lyco: string;
     @Expose()
-    sd_model_checkpoint: string;
+    sd_model_checkpoint?: string;
     // sd_unet: string;
     @Expose()
-    sd_vae: string;
+    sd_vae?: string;
     // sd_vae_checkpoint_cache: number;
     // sd_vae_decode_method: string;
     // sd_vae_encode_method: string;
