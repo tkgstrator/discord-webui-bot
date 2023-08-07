@@ -1,0 +1,11 @@
+services:
+  app:
+    image: stable-diffusion-webui-bot
+    build: ./
+    restart: unless-stopped
+    environment:
+      TZ: Asia/Tokyo
+      API_URL: ${API_URL}
+      API_VER: ${API_VER}
+    ports:
+      - "3000:3000"
