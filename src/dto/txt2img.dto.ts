@@ -68,7 +68,7 @@ export class Txt2ImgParams {
     readonly seed: number;
     
     @Expose()
-    hr_second_pass_steps: number;
+    readonly hr_second_pass_steps: number;
 
     @Expose()
     readonly send_images: boolean;
