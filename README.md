@@ -45,6 +45,7 @@ API_VER=v1
 git clone https://github.com/tkgstrator/stable-journey-bot
 git checkout develop
 cd stable-journey-bot
+yarn install
 yarn dev
 ```
 
