@@ -11,6 +11,8 @@ import { SystemInfoRequest } from "./requests/sytem.info.js";
 import { SystemInfoResponse } from "./dto/system.info.dto.js";
 import { SDVaeRequest } from "./requests/vae.js";
 import { SDVae } from "./dto/vae.dto.js";
+import { Upscaler } from "./dto/upscaler.dto.js";
+import { UpscalerRequest } from "./requests/upscaler.js";
 
 dotenv.config();
 
@@ -29,6 +31,10 @@ export class SDClient {
     
     async get_sd_vae(): Promise<SDVae[]> {
         return this.request(new SDVaeRequest())
+    }
+    
+    async get_upscalers(): Promise<Upscaler[]> {
+        return this.request(new UpscalerRequest())
     }
 
     async get_progress(skip_current_image: boolean): Promise<ProgressResponse> {

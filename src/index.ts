@@ -10,4 +10,5 @@ const client = new SDClient()
 
 console.log(await client.get_progress(true))
 console.log(await client.get_sd_vae())
-console.log(await client.get_system_info(true, true, true, true))
+console.log(await client.get_upscalers())
+// console.log(await client.get_system_info(true, true, true, true))
