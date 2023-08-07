@@ -5,4 +5,4 @@ export const Command = {
     Switch: "switch",
 } as const
 
-type Command = typeof [keyof typeof Command];
+export type Command = typeof Command[keyof typeof Command];

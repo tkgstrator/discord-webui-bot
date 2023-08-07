@@ -2,9 +2,10 @@ import { SDClient } from './client.js';
 import { Client, Events, GatewayIntentBits } from 'discord.js';
 import dotenv from 'dotenv';
 import { registration } from './deploy.js';
-import { options } from './commands/options.js';
+import { status } from './commands/status.js';
 import { generate } from './commands/generate.js';
 import { Command } from './commands/commands.js';
+import { options } from './commands/options.js';
 
 dotenv.config();
 
@@ -25,6 +26,9 @@ client.on(Events.InteractionCreate, async (interaction) => {
         generate.execute(interaction)
     }
     if (interaction.commandName === Command.Status) {
+        status.execute(interaction)
+    }
+    if (interaction.commandName === Command.Options) {
         options.execute(interaction)
     }
 })
