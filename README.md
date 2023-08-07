@@ -4,6 +4,25 @@ Discord bot client for AUTOMATIC1111's [stable-diffusion-webui](https://github.c
 
 ### Features
 
+#### Discord Bot
+
+- [ ] Generate(Txt2Img)
+    - [ ] Prompt
+    - [ ] Negative prompt
+    - [ ] Batch size
+- [ ] Switch(Options)
+    - [ ] Checkpoint
+    - [ ] Vae
+    - [ ] CLIP_stop_at_last_layers
+    - [ ] eta_noise_seed_delta
+- [ ] Random(Txt2Img)
+    - [ ] NSFW
+    - [ ] SFW
+- [ ] System info
+- [ ] Default parameters
+
+#### SDAPI
+
 - [x] `sdapi/v1/txt2img`
 - [ ] `sdapi/v1/img2img`
 - [x] `sdapi/v1/progress`
@@ -11,7 +30,7 @@ Discord bot client for AUTOMATIC1111's [stable-diffusion-webui](https://github.c
 - [ ] `sdapi/v1/interrupt`
 - [ ] `sdapi/v1/skip`
 - [x] `sdapi/v1/options`
-- [ ] `sdapi/v1/samplers`
+- [x] `sdapi/v1/samplers`
 - [x] `sdapi/v1/sd-vae`
 - [x] `sdapi/v1/sd-models`
 - [x] `sdapi/v1/system-info/status`
