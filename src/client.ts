@@ -13,6 +13,8 @@ import { SDVaeRequest } from "./requests/vae.js";
 import { SDVae } from "./dto/vae.dto.js";
 import { Upscaler } from "./dto/upscaler.dto.js";
 import { UpscalerRequest } from "./requests/upscaler.js";
+import { GetSDOptionsRequest, SetSDOptionsRequest } from "./requests/options.js";
+import { SDOptions } from "./dto/options.dto.js";
 
 dotenv.config();
 
@@ -27,6 +29,14 @@ export class SDClient {
 
     async txt2img(request: Txt2ImgParams): Promise<Txt2ImgResponse> {
         return this.request(new Txt2ImgRequest(request))
+    }
+    
+    async set_options(request: SDOptions): Promise<boolean> {
+        return this.request(new SetSDOptionsRequest(request))
+    }
+    
+    async get_options(): Promise<SDOptions> {
+        return this.request(new GetSDOptionsRequest())
     }
     
     async get_sd_vae(): Promise<SDVae[]> {
