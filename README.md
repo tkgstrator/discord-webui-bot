@@ -12,7 +12,7 @@ Discord bot client for AUTOMATIC1111's [stable-diffusion-webui](https://github.c
 - [ ] `sdapi/v1/skip`
 - [ ] `sdapi/v1/options`
 - [ ] `sdapi/v1/samplers`
-- [ ] `sdapi/v1/sd-va`
+- [ ] `sdapi/v1/sd-vae`
 - [x] `sdapi/v1/sd-models`
 - [ ] `sdapi/v1/system-info/status`
 - [ ] `sdapi/v1/refresh-checkpoints`

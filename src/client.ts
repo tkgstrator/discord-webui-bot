@@ -7,6 +7,10 @@ import fetch, { Headers } from 'node-fetch';
 import { Txt2ImgRequest } from "./requests/txt2img.js";
 import { ProgressResponse } from "./dto/progress.dto.js";
 import { ProgressRequest } from "./requests/progress.js";
+import { SystemInfoRequest } from "./requests/sytem.info.js";
+import { SystemInfoResponse } from "./dto/system.info.dto.js";
+import { SDVaeRequest } from "./requests/vae.js";
+import { SDVae } from "./dto/vae.dto.js";
 
 dotenv.config();
 
@@ -22,11 +26,18 @@ export class SDClient {
     async txt2img(request: Txt2ImgParams): Promise<Txt2ImgResponse> {
         return this.request(new Txt2ImgRequest(request))
     }
+    
+    async get_sd_vae(): Promise<SDVae[]> {
+        return this.request(new SDVaeRequest())
+    }
 
     async get_progress(skip_current_image: boolean): Promise<ProgressResponse> {
         return this.request(new ProgressRequest(skip_current_image))
     }
-
+    
+    async get_system_info(state: boolean, memory: boolean, full: boolean, refresh: boolean):Promise<SystemInfoResponse> {
+        return this.request(new SystemInfoRequest(state, memory, full, refresh))
+    }
     async get_sd_models(): Promise<SDModel[]> {
         return this.request(new SDModelsRequest())
     }
