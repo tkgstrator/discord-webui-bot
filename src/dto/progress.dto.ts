@@ -1,18 +1,45 @@
-export interface Progress {
-    progress:      number;
-    eta_relative:  number;
-    state:         State;
-    current_image: null;
-    textinfo:      null;
+import { Expose, Type } from "class-transformer";
+
+class State {
+    @Expose()
+    skipped: boolean;
+
+    @Expose()
+    interrupted: boolean;
+
+    @Expose()
+    job: string;
+
+    @Expose()
+    job_count: number;
+
+    @Expose()
+    job_timestamp: string;
+
+    @Expose()
+    job_no: number;
+
+    @Expose()
+    sampling_step: number;
+
+    @Expose()
+    sampling_steps: number;
 }
 
-export interface State {
-    skipped:        boolean;
-    interrupted:    boolean;
-    job:            string;
-    job_count:      number;
-    job_timestamp:  string;
-    job_no:         number;
-    sampling_step:  number;
-    sampling_steps: number;
+export class ProgressResponse {
+    @Expose()
+    progress: number;
+
+    @Expose()
+    eta_relative: number;
+
+    @Expose()
+    @Type(() => State)
+    state: State;
+
+    @Expose()
+    current_image: null;
+
+    @Expose()
+    textinfo: null;
 }
