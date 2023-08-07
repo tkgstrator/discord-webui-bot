@@ -12,7 +12,7 @@ Discord bot client for AUTOMATIC1111's [stable-diffusion-webui](https://github.c
     - [ ] Batch size
 - [x] Status(Options)
 - [x] Switch(Options)
-    - [ ] Checkpoint
+    - [x] Checkpoint
     - [ ] Vae
     - [x] CLIP_stop_at_last_layers
     - [x] eta_noise_seed_delta
