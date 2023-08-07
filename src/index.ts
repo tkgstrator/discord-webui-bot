@@ -6,6 +6,7 @@ import { status } from './commands/status.js';
 import { generate } from './commands/generate.js';
 import { Command } from './commands/commands.js';
 import { options } from './commands/options.js';
+import { models } from './commands/models.js';
 
 dotenv.config();
 
@@ -30,6 +31,10 @@ client.on(Events.InteractionCreate, async (interaction) => {
     }
     if (interaction.commandName === Command.Options) {
         options.execute(interaction)
+    }
+    if (interaction.commandName === Command.Switch) {
+        const command = await models(service)
+        command.execute(interaction)
     }
 })
 client.login(token)
