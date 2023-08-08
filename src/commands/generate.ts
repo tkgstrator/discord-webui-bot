@@ -4,6 +4,7 @@ import { SDClient } from "../client.js";
 import { Upscaler } from "../dto/upscaler.dto.js";
 import { SDProgress } from "../dto/progress.dto.js";
 import '../extension.js'
+import { Txt2ImgResponse } from "~/dto/txt2img.dto";
 
 export const generate = async (service: SDClient) => {
     const upscalers: Upscaler[] = await service.get_upscalers()
@@ -53,13 +54,14 @@ export const generate = async (service: SDClient) => {
                 .setRequired(false)),
         execute: async (interaction: any) => {
             await interaction.deferReply({ ephemeral: false });
+            const author_id: string = interaction.user.id
             const sdxl_support: boolean = await service.sdxl_support()
             /**
              * パラメータの取得
              * デフォルト設定を読み込めるようにしたい所存
              */
             const prompt: string | undefined = interaction.options.getString('prompt')
-            const upscaler: string = interaction.options.getString('upscaler') ?? "Latent"
+            const upscaler: string = interaction.options.getString('upscaler') ?? (sdxl_support ? "R-ESRGAN 4x+ Anime6B" : "Latent")
             const batch_size: number = interaction.options.getNumber('batch_size') ?? 1
             const seed: number = interaction.options.getNumber('seed') ?? -1
             /**
@@ -70,19 +72,19 @@ export const generate = async (service: SDClient) => {
             const enable_hr: boolean = hr_scale !== 1.0 
             
             try {
+                let is_finished: boolean = false
                 const { sd_model_checkpoint } = await service.get_options()
-                const progress = async () => {
-                    let is_finished: boolean = false
+                const waiting = async () => {
                     while (!is_finished) {
                         await new Promise(resolve => setTimeout(resolve, 500));
                         const progress: SDProgress = await service.get_progress(true)
                         if (progress.progress === 0)
                             continue
-                        /**
-                         * 進捗100%か残り時間が0になったら完了
-                         */
-                        if (progress.progress === 1 || progress.eta_relative === 0)
-                            is_finished = true
+                        // /**
+                        //  * 進捗100%か残り時間が0になったら完了
+                        //  */
+                        // if (progress.progress === 1 || progress.eta_relative === 0)
+                        //     is_finished = true
                         
                         const estimated_time: string = Math.max(0, progress.eta_relative).toFixed(2)
                         const content = new EmbedBuilder()
@@ -96,13 +98,13 @@ export const generate = async (service: SDClient) => {
                                     inline: true
                                 },
                                 {
-                                    name: "Operation",
-                                    value: (progress.state.sampling_steps === 20 ? 'Generating' : 'Upscaling').toCode(),
+                                    name: "Progress",
+                                    value: `${(progress.progress * 100).toFixed(2)}%`.toCode(),
                                     inline: true
                                 },
                                 {
-                                    name: "Progress",
-                                    value: `${(progress.progress * 100).toFixed(2)}%`.toCode(),
+                                    name: "Operation",
+                                    value: (progress.state.sampling_steps === 20 ? 'Generating' : 'Upscaling').toCode(),
                                     inline: true
                                 },
                                 {
@@ -120,28 +122,33 @@ export const generate = async (service: SDClient) => {
                         await interaction.editReply({ embeds: [content] });
                     }
                 }
-                progress()
                 
                 /**
                  * 生成完了
                  */
-                const response = await service.txt2img({
-                    prompt: prompt,
-                    negative_prompt: "EasyNegative, EasyNegativev2, negative_hand-neg",
-                    batch_size: batch_size,
-                    sampler_name: sdxl_support ? "DPM++ 2S a" : "DDIM",
-                    hr_scale: hr_scale,
-                    hr_upscaler: upscaler,
-                    seed: seed,
-                    enable_hr: enable_hr,
-                    steps: sdxl_support ? 28 : 20
-                })
+                const generate = service.txt2img({
+                        prompt: sdxl_support ? `face focus, cute, masterpiece, best quality, ${prompt}` : prompt,
+                        negative_prompt: sdxl_support ? "lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, normal quality, jpeg artifacts, signature, watermark, username, blurry" : "EasyNegative, EasyNegativev2, negative_hand-neg",
+                        batch_size: sdxl_support ? 1 : batch_size,
+                        sampler_name: sdxl_support ? "DPM++ 2M SDE Karras" : "DDIM",
+                        hr_scale: hr_scale,
+                        hr_upscaler: upscaler,
+                        seed: seed,
+                        enable_hr: enable_hr,
+                        steps: sdxl_support ? 30 : 20,
+                        width: sdxl_support ? 512 * 1.5 : 512,
+                        height: sdxl_support ? 768 * 1.5 : 768,
+                    })
+                    .then((result: Txt2ImgResponse) => {
+                        is_finished = true
+                        return result
+                    })
 
+                const [response, _] = await Promise.all([generate, waiting()])
                 /**
                  * 画像を添付
                  */
                 const attachments = response.images.map((image: string) => new AttachmentBuilder(base64ToPng(image)).setName('image.png'))
-                console.log(response.info)
                 const content = new EmbedBuilder()
                     .setColor('#0099FF')
                     .setTitle('Generated')
@@ -193,9 +200,8 @@ export const generate = async (service: SDClient) => {
                         },
                     )
                     .setTimestamp()
-                await interaction.editReply({ content: "Done", embeds: [content], files: attachments, ephemeral: false });
+                await interaction.editReply({ content: `Done - <@${author_id}>`, embeds: [content], files: attachments, ephemeral: false });
             } catch(error) {
-                console.log(error)
                 await interaction.deleteReply()
             }
         }

@@ -32,7 +32,6 @@ export class Txt2ImgRequest implements RequestType {
             ...params,
             ...parameters,
         })
-        console.log(this.parameters)
     }
 
     request(response: any): Txt2ImgResponse {

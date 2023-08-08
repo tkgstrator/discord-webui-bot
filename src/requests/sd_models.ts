@@ -13,6 +13,6 @@ export class SDModelsRequest implements RequestType {
     }
 
     request(response: any): SDModel[] {
-        return response.map((res: any) => plainToInstance(SDModel, res, { excludeExtraneousValues: true }))
+        return response.map((res: any) => plainToInstance(SDModel, res, { excludeExtraneousValues: true })).sort((a: SDModel, b: SDModel) => a.model_name > b.model_name ? 1 : -1)
     }
 }

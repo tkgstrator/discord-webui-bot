@@ -15,7 +15,6 @@ export const token: string = process.env.DISCORD_TOKEN!
 export const guild_id: string = process.env.GUILD_ID!
 export const application_id: string = process.env.APPLICATION_ID!
 
-console.log(token, guild_id)
 registration(token, application_id, guild_id)
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] })
