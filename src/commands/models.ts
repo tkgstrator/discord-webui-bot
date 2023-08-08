@@ -1,10 +1,10 @@
 import { SlashCommandBuilder, EmbedBuilder } from "discord.js";
-import { SDModel } from "../dto/models.dto.js";
+import { SDBaseModel, SDModel } from "../dto/models.dto.js";
 import { SDClient } from "~/client";
 import '../extension.js'
 
-export const models = async (service: SDClient) => {
-    const checkpoints: SDModel[] = (await service.get_sd_models()).slice(0, 25)
+export const models = async (service: SDClient) => { 
+    const checkpoints: SDModel[] = await service.get_checkpoints()
     return {
         data: new SlashCommandBuilder()
             .setName('switch')
@@ -20,10 +20,20 @@ export const models = async (service: SDClient) => {
                             value: model.title
                         }
                     })
+                ))
+            .addStringOption(option => option
+                .setName('base_model')
+                .setDescription('Choose base model')
+                .setChoices(
+                    { name: 'SDXL1.0', value: SDBaseModel.SDXL1_0 },
+                    { name: 'SDXL0.9', value: SDBaseModel.SDXL0_9 },
+                    { name: 'SD2.1', value: SDBaseModel.SD2_1 },
+                    { name: 'SD2.0', value: SDBaseModel.SD2_0 },
+                    { name: 'SD1.5', value: SDBaseModel.SD1_5 },
                 )),
         execute: async (interaction: any) => {
             const checkpoint: string | undefined = interaction.options.getString('checkpoint') ?? undefined
-            await interaction.deferReply({ ephemeral: true });
+            await interaction.deferReply({ ephemeral: false });
             const response = await service.set_options({
                 sd_model_checkpoint: checkpoint
             })

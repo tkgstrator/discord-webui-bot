@@ -20,9 +20,17 @@ import { SamplerRequest } from "./requests/sampler.js";
 
 dotenv.config();
 
+function chunked<T extends any[]>(arr: T, size: number) {
+    return arr.reduce(
+        (newarr, _, i) => (i % size ? newarr : [...newarr, arr.slice(i, i + size)]),
+        [] as T[][]
+    )
+}
+
 export class SDClient {
     private readonly base_url: string
     private readonly version: string
+    checkpoint_offset: number = 0
 
     constructor() {
         this.base_url = process.env.API_URL!
@@ -69,6 +77,10 @@ export class SDClient {
 
     async get_sd_models(): Promise<SDModel[]> {
         return this.request(new SDModelsRequest())
+    }
+    
+    async get_checkpoints(): Promise<SDModel[]> {
+        return chunked(await this.get_sd_models(), 25)[this.checkpoint_offset]
     }
 
     private async request<T extends RequestType, U extends ReturnType<T["request"]>>(request: T): Promise<U> {
