@@ -5,7 +5,7 @@ import { SDModelsRequest } from "./requests/sd_models.js"
 import * as dotenv from 'dotenv';
 import fetch, { Headers } from 'node-fetch';
 import { Txt2ImgRequest } from "./requests/txt2img.js";
-import { ProgressResponse } from "./dto/progress.dto.js";
+import { SDProgress } from "./dto/progress.dto.js";
 import { ProgressRequest } from "./requests/progress.js";
 import { SystemInfoRequest } from "./requests/sytem.info.js";
 import { SystemInfoResponse } from "./dto/system.info.dto.js";
@@ -29,8 +29,14 @@ export class SDClient {
         this.version = process.env.API_VER!
     }
 
-    async txt2img(request: Txt2ImgParams): Promise<Txt2ImgResponse> {
+    async txt2img(request: Partial<Txt2ImgParams>): Promise<Txt2ImgResponse> {
         return this.request(new Txt2ImgRequest(request))
+    }
+
+    async sdxl_support(): Promise<boolean> {
+        const { sd_model_checkpoint } = await this.get_options()
+        const models = (await this.get_sd_models()).filter((model) => model.title === sd_model_checkpoint)
+        return models.length === 0 ? false : models[0].is_sdxl
     }
     
     async set_options(request: SDOptions): Promise<boolean> {
@@ -53,13 +59,14 @@ export class SDClient {
         return this.request(new UpscalerRequest())
     }
 
-    async get_progress(skip_current_image: boolean): Promise<ProgressResponse> {
+    async get_progress(skip_current_image: boolean): Promise<SDProgress> {
         return this.request(new ProgressRequest(skip_current_image))
     }
     
     async get_system_info(state: boolean, memory: boolean, full: boolean, refresh: boolean):Promise<SystemInfoResponse> {
         return this.request(new SystemInfoRequest(state, memory, full, refresh))
     }
+
     async get_sd_models(): Promise<SDModel[]> {
         return this.request(new SDModelsRequest())
     }

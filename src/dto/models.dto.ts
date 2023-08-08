@@ -2,18 +2,22 @@ import { Expose } from "class-transformer";
 
 export class SDModel {
     @Expose()
-    title:      string;
-    
+    title: string;
+
     @Expose()
     model_name: string;
-    
+
     @Expose()
-    hash:       null | string;
-    
+    hash: null | string;
+
     @Expose()
-    sha256:     null | string;
-    
+    sha256: null | string;
+
     @Expose()
-    filename:   string;
+    filename: string;
     // config:     null;
+
+    get is_sdxl(): boolean {
+        return this.filename.includes("SDXL");
+    }
 }

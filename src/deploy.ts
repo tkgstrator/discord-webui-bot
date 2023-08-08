@@ -6,7 +6,7 @@ import { models } from './commands/models.js';
 import { service } from './index.js';
 
 export const registration = (async (token: string, application_id: string, guild_id: string) => {
-    const commands = [generate.data, status.data, options.data, (await models(service)).data].map((command) => command.toJSON())
+    const commands = [(await generate(service)).data, status.data, options.data, (await models(service)).data].map((command) => command.toJSON())
     const rest = new REST({ version: '10' }).setToken(token);
     try {
         await rest.put(

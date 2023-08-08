@@ -28,7 +28,6 @@ export const models = async (service: SDClient) => {
                 sd_model_checkpoint: checkpoint
             })
             if (checkpoint !== undefined && response) {
-                // console.log(checkpoint)
                 const content = new EmbedBuilder()
                     .setColor('#0099FF')
                     .setTitle('Model switched successfully!')

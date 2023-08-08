@@ -10,8 +10,29 @@ export class Txt2ImgRequest implements RequestType {
     }
     readonly parameters: string | URLSearchParams | undefined 
 
-    constructor(parameters: Txt2ImgParams) {
-        this.parameters = JSON.stringify(parameters)
+    constructor(parameters: Partial<Txt2ImgParams>) {
+        /**
+         * Hires stepsは実ステップの半分
+         */
+        const params: Partial<Txt2ImgParams> = {
+            batch_size: 1,
+            cfg_scale: 12.0,
+            denoising_strength: 0.55,
+            height: 768,
+            hr_upscaler: "Latent",
+            sampler_name: "DPM++ 2S a",
+            save_images: true,
+            seed: -1,
+            send_images: true,
+            width: 512,
+            steps: 20,
+            hr_second_pass_steps: (parameters.steps || 20) >> 1
+        }
+        this.parameters = JSON.stringify({
+            ...params,
+            ...parameters,
+        })
+        console.log(this.parameters)
     }
 
     request(response: any): Txt2ImgResponse {

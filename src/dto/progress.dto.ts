@@ -26,7 +26,7 @@ class State {
     sampling_steps: number;
 }
 
-export class ProgressResponse {
+export class SDProgress {
     @Expose()
     progress: number;
 
