@@ -30,11 +30,14 @@ function chunked<T extends any[]>(arr: T, size: number) {
 export class SDClient {
     private readonly base_url: string
     private readonly version: string
-    checkpoint_offset: number = 0
+    private readonly checkpoint_offset = 0
+    private readonly api_token: string | undefined
 
     constructor() {
         this.base_url = process.env.API_URL!
         this.version = process.env.API_VER!
+        if (process.env.API_USER_ID !== undefined || process.env.API_PASSWORD !== undefined)
+            this.api_token= Buffer.from(`${process.env.API_USER_ID!}:${process.env.API_PASSWORD!}`).toString('base64')
     }
 
     async txt2img(request: Partial<Txt2ImgParams>): Promise<Txt2ImgResponse> {
@@ -86,7 +89,13 @@ export class SDClient {
     private async request<T extends RequestType, U extends ReturnType<T["request"]>>(request: T): Promise<U> {
         if (request.method === Method.POST) {
             const url = new URL(request.path, `${this.base_url}/${this.version}/`)
-            const headers = new Headers(request.headers)
+            const headers = ((): Headers => {
+                return this.api_token === undefined
+                ? new Headers(request.headers)
+                : new Headers({ ...request.headers, ...{
+                    'Authorization': `Basic ${this.api_token}`,
+                }})
+            })()
             const response = await fetch(url, {
                 method: request.method,
                 headers: headers,
@@ -94,8 +103,18 @@ export class SDClient {
             })
             return request.request(await response.json()) as U
         } else {
-            const url = new URL(`${request.path}?${request.parameters}`, `${this.base_url}/${this.version}/`)
-            const headers = new Headers(request.headers)
+            const url = ((): URL => {
+                return request.parameters === undefined
+                ? new URL(request.path, `${this.base_url}/${this.version}/`)
+                : new URL(`${request.path}?${request.parameters}`, `${this.base_url}/${this.version}/`)
+            })()
+            const headers = ((): Headers => {
+                return this.api_token === undefined
+                ? new Headers(request.headers)
+                : new Headers({ ...request.headers, ...{
+                    'Authorization': `Basic ${this.api_token}`,
+                }})
+            })()
             const response = await fetch(url, {
                 method: request.method,
                 headers: headers

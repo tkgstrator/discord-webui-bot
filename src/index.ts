@@ -10,6 +10,10 @@ import { models } from './commands/models.js';
 
 dotenv.config();
 
+if (process.env.API_URL === undefined || process.env.API_VER === undefined)
+    throw new Error("API_URL or API_VER is undefined")
+if (process.env.DISCORD_TOKEN === undefined || process.env.GUILD_ID === undefined || process.env.APPLICATION_ID === undefined)
+    throw new Error("DISCORD_TOKEN, GUILD_ID or APPLICATION_ID is undefined")
 export const service: SDClient = new SDClient()
 export const token: string = process.env.DISCORD_TOKEN!
 export const guild_id: string = process.env.GUILD_ID!
