@@ -6,10 +6,10 @@ Discord bot client for AUTOMATIC1111's [stable-diffusion-webui](https://github.c
 
 #### Discord Bot
 
-- [ ] Generate(Txt2Img)
-    - [ ] Prompt
+- [x] Generate(Txt2Img)
+    - [x] Prompt
     - [ ] Negative prompt
-    - [ ] Batch size
+    - [x] Batch size
 - [x] Status(Options)
 - [x] Switch(Options)
     - [x] Checkpoint
