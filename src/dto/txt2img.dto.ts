@@ -1,5 +1,13 @@
-import { Expose, Transform, Type } from "class-transformer";
+import { Expose, Transform, Type, plainToInstance } from "class-transformer";
 import "reflect-metadata";
+
+class Settings {
+    @Expose()
+    readonly CLIP_stop_at_last_layers: number
+
+    @Expose()
+    readonly eta_noise_seed_delta: number
+}
 
 export class Txt2ImgParams {
     // alwayson_scripts:                     AlwaysonScripts;
@@ -14,7 +22,6 @@ export class Txt2ImgParams {
     // hr_resize_y:                          number;
     // hr_sampler_name:                      string;
     // n_iter:                               number;
-    // override_settings:                    AlwaysonScripts;
     // override_settings_restore_afterwards: boolean;
     // restore_faces:                        boolean;
     // s_churn:                              number;
@@ -35,7 +42,7 @@ export class Txt2ImgParams {
     readonly batch_size: number;
 
     @Expose()
-    readonly cfg_scale: number;
+    readonly cfg_scale: number
 
     @Expose()
     readonly denoising_strength: number;
@@ -47,28 +54,28 @@ export class Txt2ImgParams {
     readonly height: number;
 
     @Expose()
-    readonly hr_scale: number;
+    readonly hr_scale: number
 
     @Expose()
-    readonly hr_upscaler: string;
-    
-    @Expose()
-    readonly negative_prompt: string;
+    readonly hr_upscaler: string
 
     @Expose()
-    readonly prompt: string;
+    readonly negative_prompt: string
 
     @Expose()
-    readonly sampler_name: string;
+    readonly prompt: string
 
     @Expose()
-    readonly save_images: boolean;
+    readonly sampler_name: string 
+
+    @Expose()
+    readonly save_images: boolean = true;
 
     @Expose()
     readonly seed: number;
-    
+
     @Expose()
-    readonly hr_second_pass_steps: number;
+    readonly hr_second_pass_steps: number
 
     @Expose()
     readonly send_images: boolean;
@@ -78,6 +85,10 @@ export class Txt2ImgParams {
 
     @Expose()
     readonly width: number;
+
+    @Expose()
+    @Type(() => Settings)
+    readonly override_settings: Settings;
 
     constructor(
         prompt: string,
@@ -115,14 +126,57 @@ export class Txt2ImgParams {
     }
 }
 
+class Txt2ImgInfo {
+    @Expose()
+    readonly prompt: string
+    
+    @Expose()
+    readonly negative_prompt: string
+    
+    @Expose()
+    readonly seed: number
+    
+    @Expose()
+    readonly all_seeds: number[]
+    
+    @Expose()
+    readonly subseed: number
+    
+    @Expose()
+    readonly all_subseeds: number[]
+    
+    @Expose()
+    readonly width: number
+   
+    @Expose()
+    readonly height: number
+    
+    @Expose()
+    readonly sampler_name: string
+    
+    @Expose()
+    readonly cfg_scale: number
+    
+    @Expose()
+    readonly steps: number
+    
+    @Expose()
+    readonly batch_size: number
+    
+    @Expose()
+    readonly clip_skip: number
+}
+
 export class Txt2ImgResponse {
     @Expose()
     readonly images: string[];
-    
+
     @Expose()
     @Type(() => Txt2ImgParams)
     readonly parameters: Txt2ImgParams;
-    
+
     @Expose()
-    readonly info: string
+    @Transform(({ value }) => plainToInstance(Txt2ImgInfo, JSON.parse(value), { excludeExtraneousValues: true }))
+    @Type(() => Txt2ImgInfo)
+    readonly info: Txt2ImgInfo
 }
