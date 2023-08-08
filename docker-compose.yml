@@ -7,5 +7,10 @@ services:
       TZ: Asia/Tokyo
       API_URL: ${API_URL}
       API_VER: ${API_VER}
+      API_USER_ID: ${API_USER_ID}
+      API_PASSWORD: ${API_PASSWORD}
+      DISCORD_TOKEN: ${DISCORD_TOKEN}
+      GUILD_ID: ${GUILD_ID}
+      APPLICATION_ID: ${APPLICATION_ID}
     ports:
       - "3000:3000"

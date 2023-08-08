@@ -133,6 +133,7 @@ export const generate = async (service: SDClient) => {
                         sampler_name: sdxl_support ? "DPM++ 2M SDE Karras" : "DDIM",
                         hr_scale: hr_scale,
                         hr_upscaler: upscaler,
+                        cfg_scale: sdxl_support ? 12 : 7,
                         seed: seed,
                         enable_hr: enable_hr,
                         steps: sdxl_support ? 30 : 20,

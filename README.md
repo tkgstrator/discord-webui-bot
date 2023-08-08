@@ -43,6 +43,10 @@ Discord bot client for AUTOMATIC1111's [stable-diffusion-webui](https://github.c
 Set additional launch flag for stable diffusion webui
 
 - `--api`
+- `--api-auth username:password`
+    - Add if you want to prevent someone use your resource via api without the permission.
+- `--gradio-auth username:password`
+    - Add if you want to prevent someone use your resource via webui without the permission.
 
 ## Installation
 
@@ -55,8 +59,13 @@ Set additional launch flag for stable diffusion webui
 ### Environment values
 
 ```
-API_URL=http://localhost:7860/sdapi
+API_URL=http://localhost:7860
 API_VER=v1
+API_USER_ID=
+API_PASSWORD=
+DISCORD_TOKEN=
+GUILD_ID=
+APPLICATION_ID=
 ```
 
 ### Development
@@ -72,5 +81,7 @@ yarn dev
 ### Production
 
 ```zsh
-docker compose up --build
+docker compose up -d --build
+// or
+make up
 ```
