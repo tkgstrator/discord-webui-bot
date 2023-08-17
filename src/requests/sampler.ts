@@ -1,16 +1,23 @@
-import { plainToInstance } from 'class-transformer'
-import { Method, RequestType } from "../request.js";
+import { plainToInstance } from 'class-transformer';
+
 import { Sampler } from '../dto/sampler.dto.js';
+import { Method, RequestType } from '../request.js';
 
 export class SamplerRequest implements RequestType {
-    readonly method: Method = Method.GET
-    readonly path: string = "samplers"
-    readonly headers: Record<string, string>
-    readonly parameters: string | URLSearchParams | undefined 
+  readonly method: Method = Method.GET;
+  readonly path: string = 'samplers';
+  readonly headers: Record<string, string>;
+  readonly parameters: string | URLSearchParams | undefined;
 
-    constructor() {}
+  constructor() {}
 
-    request(response: any): Sampler[] {
-        return response.map((res: any) => plainToInstance(Sampler, res, { excludeExtraneousValues: true, exposeUnsetFields: false, enableCircularCheck: true }))
-    }
+  request(response: any): Sampler[] {
+    return response.map((res: any) =>
+      plainToInstance(Sampler, res, {
+        enableCircularCheck: true,
+        excludeExtraneousValues: true,
+        exposeUnsetFields: false,
+      }),
+    );
+  }
 }
