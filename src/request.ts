@@ -1,15 +1,15 @@
 export enum Method {
-    GET = 'GET',
-    POST = 'POST',
+  GET = 'GET',
+  POST = 'POST',
 }
 
 export interface ResponseType {}
 
 export interface RequestType {
-    readonly method: Method
-    readonly path: string
-    readonly headers: Record<string, string>
-    readonly parameters: string | URLSearchParams | undefined 
+  readonly headers: Record<string, string>;
+  readonly method: Method;
+  readonly parameters: string | URLSearchParams | undefined;
+  readonly path: string;
 
-    request(response: any): ResponseType | void
+  request(response: any): ResponseType | void;
 }

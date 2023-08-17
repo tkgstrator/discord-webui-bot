@@ -1,9 +1,9 @@
-import { Expose } from "class-transformer";
+import { Expose } from 'class-transformer';
 
 export class SDVae {
-    @Expose()
-    model_name: string;
+  @Expose()
+  model_name: string;
 
-    @Expose()
-    filename: string;
+  @Expose()
+  filename: string;
 }
