@@ -2,6 +2,8 @@ import { plainToInstance } from 'class-transformer';
 
 import { Txt2ImgParams, Txt2ImgResponse } from '../dto/txt2img.dto.js';
 import { Method, RequestType } from '../request.js';
+import { SamplerType } from '../dto/sampler.dto.js';
+import { Upscaler, UpscalerType } from '../dto/upscaler.dto.js';
 
 export class Txt2ImgRequest implements RequestType {
   readonly method: Method = Method.POST;
@@ -21,8 +23,8 @@ export class Txt2ImgRequest implements RequestType {
       denoising_strength: 0.55,
       height: 768,
       hr_second_pass_steps: (parameters.steps || 20) >> 1,
-      hr_upscaler: 'Latent',
-      sampler_name: 'DPM++ 2S a',
+      hr_upscaler: UpscalerType.Anime6B,
+      sampler_name: SamplerType.DDIM,
       save_images: true,
       seed: -1,
       send_images: true,

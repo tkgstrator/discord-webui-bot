@@ -15,10 +15,11 @@ import {
 import { base64ToPng } from '../base64.js';
 import { SDClient } from '../client.js';
 import { SDProgress } from '../dto/progress.dto.js';
-import { Upscaler } from '../dto/upscaler.dto.js';
+import { Upscaler, UpscalerType } from '../dto/upscaler.dto.js';
 
 import '../extension.js';
 import { Txt2ImgResponse } from '~/dto/txt2img.dto';
+import { SamplerType } from '../dto/sampler.dto.js';
 
 type Interaction = ChatInputCommandInteraction | ButtonInteraction | TextChannel
 
@@ -45,7 +46,7 @@ export async function generateImageAndReply(
   sdxl_support: boolean = false,
   author_id: string,
   prompt: string,
-  upscaler: Upscaler,
+  upscaler: UpscalerType,
   batch_size: number,
   seed: number = -1,
   hr_scale: number = 1.5,
@@ -117,7 +118,7 @@ export async function generateImageAndReply(
           ? 'lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, normal quality, jpeg artifacts, signature, watermark, username, blurry'
           : 'EasyNegative, EasyNegativev2, negative_hand-neg',
         prompt: sdxl_support ? `face focus, cute, masterpiece, best quality, ${prompt}` : prompt,
-        sampler_name: sdxl_support ? 'DPM++ 2M SDE Karras' : 'DDIM',
+        sampler_name: sdxl_support ? SamplerType.DPM2Sa : SamplerType.DDIM,
         seed: seed,
         steps: sdxl_support ? 30 : 20,
         width: sdxl_support ? 512 * 1.5 : 512,
@@ -264,8 +265,7 @@ export const generate = async (service: SDClient) => {
        * デフォルト設定を読み込めるようにしたい所存
        */
       const prompt: string | null = interaction.options.getString('prompt');
-      const upscaler: string =
-        interaction.options.getString('upscaler') ?? (sdxl_support ? 'R-ESRGAN 4x+ Anime6B' : 'Latent');
+      const upscaler: UpscalerType = Object.values(UpscalerType).find((upscaler) => upscaler === interaction.options.getString('upscaler')) ?? UpscalerType.Anime6B
       const batch_size: number = interaction.options.getNumber('batch_size') ?? 1;
       const seed: number = interaction.options.getNumber('seed') ?? -1;
       /**

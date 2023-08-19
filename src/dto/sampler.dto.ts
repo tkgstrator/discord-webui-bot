@@ -41,3 +41,9 @@ export class Sampler {
   @Type(() => Options)
   options: Options;
 }
+
+export enum SamplerType {
+  DPM2Sa = 'DPM++ 2S a',
+  DPM2MSDEKarras = 'DPM++ 2M SDE Karras',
+  DDIM = 'DDIM',
+}
