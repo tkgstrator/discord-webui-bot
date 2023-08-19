@@ -6,7 +6,6 @@ import { SDClient } from '~/client';
 
 export const retry = {
   execute: async (service: SDClient, interaction: ButtonInteraction) => {
-    await interaction.deferReply({ ephemeral: false });
     /**
      * パラメータをフィールドから取得する
      */

@@ -1,10 +1,10 @@
-import { Client, Events, GatewayIntentBits } from 'discord.js';
+import { Client, Events, GatewayIntentBits, TextChannel } from 'discord.js';
 import dotenv from 'dotenv';
 
 import { SDClient } from './client.js';
 import { Command } from './commands/commands.js';
 import { deleteReply } from './commands/delete.js';
-import { generate } from './commands/generate.js';
+import { generate, generateImageAndReply } from './commands/generate.js';
 import { models } from './commands/models.js';
 import { options } from './commands/options.js';
 import { retry } from './commands/retry.js';
@@ -30,8 +30,8 @@ registration(token, application_id, guild_id);
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
-client.once(Events.ClientReady, () => {
-  console.log('Client ready');
+client.once(Events.ClientReady, async () => {
+  const channel: TextChannel = client.channels.cache.get('1142545490848780419') as TextChannel;
 });
 
 client.on(Events.InteractionCreate, async (interaction) => {

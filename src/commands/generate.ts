@@ -5,6 +5,11 @@ import {
   ActionRowBuilder,
   ButtonBuilder,
   ButtonStyle,
+  ButtonInteraction,
+  ChatInputCommandInteraction,
+  TextChannel,
+  MessagePayload,
+  InteractionEditReplyOptions,
 } from 'discord.js';
 
 import { base64ToPng } from '../base64.js';
@@ -15,19 +20,39 @@ import { Upscaler } from '../dto/upscaler.dto.js';
 import '../extension.js';
 import { Txt2ImgResponse } from '~/dto/txt2img.dto';
 
+type Interaction = ChatInputCommandInteraction | ButtonInteraction | TextChannel
+
+function deferReply(interaction: Interaction, ephemeral: boolean = true) {
+  if (interaction instanceof TextChannel) return;
+  return interaction.deferReply({ ephemeral: ephemeral });
+}
+
+function editReply(interaction: Interaction, options: string | MessagePayload) {
+  if (interaction instanceof TextChannel) {
+    return interaction.send(options);
+  }
+  return interaction.editReply(options);
+}
+
+function deleteReply(interaction: Interaction) {
+  if (interaction instanceof TextChannel) return;
+  return interaction.deleteReply();
+}
+
 export async function generateImageAndReply(
-  interaction: any,
+  interaction: ChatInputCommandInteraction | ButtonInteraction | TextChannel,
   service: SDClient,
-  sdxl_support: boolean,
+  sdxl_support: boolean = false,
   author_id: string,
   prompt: string,
-  upscaler: string,
+  upscaler: Upscaler,
   batch_size: number,
   seed: number = -1,
   hr_scale: number = 1.5,
   enable_hr: boolean = true,
 ) {
   try {
+    deferReply(interaction, false);
     let is_finished: boolean = false;
     const { sd_model_checkpoint } = await service.get_options();
     const waiting = async () => {
@@ -72,7 +97,8 @@ export async function generateImageAndReply(
             },
           )
           .setTimestamp();
-        await interaction.editReply({ embeds: [content] });
+        // @ts-ignore
+        editReply(interaction, { embeds: [content] });
       }
     };
 
@@ -169,21 +195,23 @@ export async function generateImageAndReply(
       )
       .setTimestamp();
 
-    const action = new ActionRowBuilder().addComponents(
+    const action: ActionRowBuilder = new ActionRowBuilder().addComponents(
       ...[
         new ButtonBuilder().setStyle(ButtonStyle.Primary).setLabel('Retry').setCustomId('retry'),
         new ButtonBuilder().setStyle(ButtonStyle.Danger).setLabel('Delete').setCustomId('delete'),
       ],
     );
-    await interaction.editReply({
+    editReply(interaction, {
+      // @ts-ignore
       components: [action],
       content: `Done - <@${author_id}>`,
       embeds: [content],
       ephemeral: false,
+      // @ts-ignore
       files: attachments,
     });
   } catch (error) {
-    await interaction.deleteReply();
+    await deleteReply(interaction);
   }
 }
 
@@ -228,15 +256,14 @@ export const generate = async (service: SDClient) => {
           .setChoices({ name: '1.0', value: 1.0 }, { name: '1.5', value: 1.5 }, { name: '2.0', value: 2.0 }),
       )
       .addNumberOption((option) => option.setName('seed').setDescription('Seed').setRequired(false)),
-    execute: async (interaction: any) => {
-      await interaction.deferReply({ ephemeral: false });
+    execute: async (interaction: ChatInputCommandInteraction) => {
       const author_id: string = interaction.user.id;
       const sdxl_support: boolean = await service.sdxl_support();
       /**
        * パラメータの取得
        * デフォルト設定を読み込めるようにしたい所存
        */
-      const prompt: string | undefined = interaction.options.getString('prompt');
+      const prompt: string | null = interaction.options.getString('prompt');
       const upscaler: string =
         interaction.options.getString('upscaler') ?? (sdxl_support ? 'R-ESRGAN 4x+ Anime6B' : 'Latent');
       const batch_size: number = interaction.options.getNumber('batch_size') ?? 1;
