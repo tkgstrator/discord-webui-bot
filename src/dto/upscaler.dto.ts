@@ -16,3 +16,10 @@ export class Upscaler {
   @Expose()
   scale: number;
 }
+
+export enum UpscalerType {
+  Latent = 'Latent',
+  Anime6B = 'R-ESRGAN 4x+ Anime6B',
+  Anime500000G = '4x_fatal_Anime_500000_G',
+  SwinIR = 'SwinIR_4x'
+}

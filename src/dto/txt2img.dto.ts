@@ -1,5 +1,7 @@
 import { Expose, Transform, Type, plainToInstance } from 'class-transformer';
 import 'reflect-metadata';
+import { SamplerType } from './sampler.dto.js';
+import { UpscalerType } from './upscaler.dto.js';
 
 class Settings {
   @Expose()
@@ -66,7 +68,7 @@ export class Txt2ImgParams {
   readonly prompt: string;
 
   @Expose()
-  readonly sampler_name: string;
+  readonly sampler_name: SamplerType;
 
   @Expose()
   readonly save_images: boolean = true;
@@ -99,8 +101,8 @@ export class Txt2ImgParams {
     enable_hr: boolean = true,
     height: number = 768,
     hr_scale: number = 1.5,
-    hr_upscaler: string = 'Latent',
-    sampler_name: string = 'DPM++ 2S a',
+    hr_upscaler: UpscalerType = UpscalerType.Anime6B,
+    sampler_name: SamplerType = SamplerType.DDIM,
     save_images: boolean = true,
     seed: number = -1,
     send_images: boolean = true,
@@ -152,7 +154,7 @@ class Txt2ImgInfo {
   readonly height: number;
 
   @Expose()
-  readonly sampler_name: string;
+  readonly sampler_name: SamplerType
 
   @Expose()
   readonly cfg_scale: number;
