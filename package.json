@@ -4,8 +4,9 @@
     "dev": "ts-node src/index.ts",
     "build": "tsc",
     "format": "prettier --write \"src/**/*.ts\"",
-    "lint": "eslint --max-warnings=0 --ignore-path .gitignore '{src,test}/**/*.ts'",
-    "lint:fix": "eslint --max-warnings=0 --ignore-path .gitignore '{src,test}/**/*.ts' --fix",
+    "format:dev": "prettier --write --check \"src/**/*.ts\"",
+    "lint": "eslint --max-warnings=0 --fix --ignore-path .gitignore '{src,test}/**/*.ts'",
+    "lint:dev": "eslint --max-warnings=0 --ignore-path .gitignore '{src,test}/**/*.ts'",
     "start:prod": "ts-node dist/index.js"
   },
   "dependencies": {

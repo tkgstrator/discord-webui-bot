@@ -32,9 +32,10 @@ rules:
       newlines-between: always
       alphabetize:
         order: asc
-  import/no-duplicates: 2
-  sort-keys-fix/sort-keys-fix: 2
-  typescript-sort-keys/interface: 2
-  unused-imports/no-unused-imports: 2
-  '@typescript-eslint/no-explicit-any': 1
-  '@typescript-eslint/no-unused-vars': 1
+  import/no-duplicates: error
+  sort-keys-fix/sort-keys-fix: error
+  typescript-sort-keys/interface: error
+  unused-imports/no-unused-imports: error
+  '@typescript-eslint/no-explicit-any': off
+  '@typescript-eslint/no-unused-vars': off
+  '@typescript-eslint/ban-ts-comment': off

@@ -9,51 +9,60 @@ import {
   ChatInputCommandInteraction,
   TextChannel,
   MessagePayload,
-  InteractionEditReplyOptions,
+  Message,
+  InteractionResponse,
 } from 'discord.js';
 
 import { base64ToPng } from '../base64.js';
 import { SDClient } from '../client.js';
 import { SDProgress } from '../dto/progress.dto.js';
+import { SamplerType } from '../dto/sampler.dto.js';
 import { Upscaler, UpscalerType } from '../dto/upscaler.dto.js';
 
 import '../extension.js';
 import { Txt2ImgResponse } from '~/dto/txt2img.dto';
-import { SamplerType } from '../dto/sampler.dto.js';
 
-type Interaction = ChatInputCommandInteraction | ButtonInteraction | TextChannel
+type Interaction = ChatInputCommandInteraction | ButtonInteraction | TextChannel;
 
-function deferReply(interaction: Interaction, ephemeral: boolean = true) {
+async function deferReply(interaction: Interaction, ephemeral: boolean = true): Promise<InteractionResponse | void> {
   if (interaction instanceof TextChannel) return;
-  return interaction.deferReply({ ephemeral: ephemeral });
+  return await interaction.deferReply({ ephemeral: ephemeral });
 }
 
-function editReply(interaction: Interaction, options: string | MessagePayload) {
+async function editReply(
+  interaction: Interaction,
+  options: string | MessagePayload,
+  in_progress: boolean = true,
+): Promise<Message | void> {
   if (interaction instanceof TextChannel) {
-    return interaction.send(options);
+    if (!in_progress) return;
+    await interaction.send(options);
+  } else {
+    return await interaction.editReply(options);
   }
-  return interaction.editReply(options);
 }
 
-function deleteReply(interaction: Interaction) {
+async function deleteReply(interaction: Interaction): Promise<void> {
   if (interaction instanceof TextChannel) return;
-  return interaction.deleteReply();
+  return await interaction.deleteReply();
 }
 
 export async function generateImageAndReply(
   interaction: ChatInputCommandInteraction | ButtonInteraction | TextChannel,
   service: SDClient,
   sdxl_support: boolean = false,
-  author_id: string,
+  author_id: string | undefined = undefined,
   prompt: string,
   upscaler: UpscalerType,
   batch_size: number,
   seed: number = -1,
   hr_scale: number = 1.5,
   enable_hr: boolean = true,
+  width: number = 512,
+  height: number = 768,
 ) {
   try {
-    deferReply(interaction, false);
+    await deferReply(interaction, false);
     let is_finished: boolean = false;
     const { sd_model_checkpoint } = await service.get_options();
     const waiting = async () => {
@@ -65,7 +74,6 @@ export async function generateImageAndReply(
          * 進捗100%か残り時間が0になったら完了
          */
         if (progress.progress === 1 || progress.eta_relative === 0) is_finished = true;
-
         const estimated_time: string = Math.max(0, progress.eta_relative).toFixed(2);
         const content = new EmbedBuilder()
           .setColor('#0099FF')
@@ -99,7 +107,7 @@ export async function generateImageAndReply(
           )
           .setTimestamp();
         // @ts-ignore
-        editReply(interaction, { embeds: [content] });
+        await editReply(interaction, { embeds: [content] }, false);
       }
     };
 
@@ -111,7 +119,7 @@ export async function generateImageAndReply(
         batch_size: sdxl_support ? 1 : batch_size,
         cfg_scale: sdxl_support ? 12 : 7,
         enable_hr: enable_hr,
-        height: sdxl_support ? 768 * 1.5 : 768,
+        height: sdxl_support ? height * 1.5 : height,
         hr_scale: hr_scale,
         hr_upscaler: upscaler,
         negative_prompt: sdxl_support
@@ -121,7 +129,7 @@ export async function generateImageAndReply(
         sampler_name: sdxl_support ? SamplerType.DPM2Sa : SamplerType.DDIM,
         seed: seed,
         steps: sdxl_support ? 30 : 20,
-        width: sdxl_support ? 512 * 1.5 : 512,
+        width: sdxl_support ? width * 1.5 : width,
       })
       .then((result: Txt2ImgResponse) => {
         is_finished = true;
@@ -202,10 +210,10 @@ export async function generateImageAndReply(
         new ButtonBuilder().setStyle(ButtonStyle.Danger).setLabel('Delete').setCustomId('delete'),
       ],
     );
-    editReply(interaction, {
+    await editReply(interaction, {
       // @ts-ignore
       components: [action],
-      content: `Done - <@${author_id}>`,
+      content: author_id === undefined ? 'Done' : `Done - <@${author_id}>`,
       embeds: [content],
       ephemeral: false,
       // @ts-ignore
@@ -265,7 +273,9 @@ export const generate = async (service: SDClient) => {
        * デフォルト設定を読み込めるようにしたい所存
        */
       const prompt: string | null = interaction.options.getString('prompt');
-      const upscaler: UpscalerType = Object.values(UpscalerType).find((upscaler) => upscaler === interaction.options.getString('upscaler')) ?? UpscalerType.Anime6B
+      const upscaler: UpscalerType =
+        Object.values(UpscalerType).find((upscaler) => upscaler === interaction.options.getString('upscaler')) ??
+        UpscalerType.Anime6B;
       const batch_size: number = interaction.options.getNumber('batch_size') ?? 1;
       const seed: number = interaction.options.getNumber('seed') ?? -1;
       /**

@@ -1,4 +1,5 @@
 import { Expose, Transform, Type, plainToInstance } from 'class-transformer';
+
 import 'reflect-metadata';
 import { SamplerType } from './sampler.dto.js';
 import { UpscalerType } from './upscaler.dto.js';
@@ -154,7 +155,7 @@ class Txt2ImgInfo {
   readonly height: number;
 
   @Expose()
-  readonly sampler_name: SamplerType
+  readonly sampler_name: SamplerType;
 
   @Expose()
   readonly cfg_scale: number;

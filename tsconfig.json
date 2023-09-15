@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
         "strict": true,
-        "module": "ES2022",
+        "module": "ESNext",
         "esModuleInterop": true,
         "declaration": true,
         "removeComments": true,
@@ -9,6 +9,7 @@
         "experimentalDecorators": true,
         "allowSyntheticDefaultImports": true,
         "strictPropertyInitialization": false,
+        "resolveJsonModule": true,
         "target": "ES2022",
         "sourceMap": true,
         "outDir": "./dist",
