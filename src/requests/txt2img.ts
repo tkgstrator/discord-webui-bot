@@ -1,9 +1,9 @@
 import { plainToInstance } from 'class-transformer';
 
-import { Txt2ImgParams, Txt2ImgResponse } from '../dto/txt2img.dto.js';
-import { Method, RequestType } from '../request.js';
 import { SamplerType } from '../dto/sampler.dto.js';
-import { Upscaler, UpscalerType } from '../dto/upscaler.dto.js';
+import { Txt2ImgParams, Txt2ImgResponse } from '../dto/txt2img.dto.js';
+import { UpscalerType } from '../dto/upscaler.dto.js';
+import { Method, RequestType } from '../request.js';
 
 export class Txt2ImgRequest implements RequestType {
   readonly method: Method = Method.POST;

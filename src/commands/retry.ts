@@ -18,7 +18,6 @@ export const retry = {
         return { [field.name.replace(/\s/g, '_').toLowerCase()]: !isNaN(value) ? parseFloat(value) : value };
       }),
     );
-    console.log(parameters);
     const author_id: string = interaction.user.id;
     const sdxl_support: boolean = await service.sdxl_support();
     /**

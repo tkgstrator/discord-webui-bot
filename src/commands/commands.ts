@@ -3,7 +3,9 @@ export const Command = {
   Generate: 'generate',
   Options: 'options',
   Retry: 'retry',
+  Start: 'start',
   Status: 'status',
+  Stop: 'stop',
   Switch: 'switch',
 } as const;
 

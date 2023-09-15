@@ -4,17 +4,18 @@ import dotenv from 'dotenv';
 import { SDClient } from './client.js';
 import { Command } from './commands/commands.js';
 import { deleteReply } from './commands/delete.js';
-import { generate, generateImageAndReply } from './commands/generate.js';
+import { generate } from './commands/generate.js';
 import { models } from './commands/models.js';
 import { options } from './commands/options.js';
 import { retry } from './commands/retry.js';
+import { start, stop } from './commands/start.js';
 import { status } from './commands/status.js';
 import { registration } from './deploy.js';
 
 dotenv.config();
 
-if (process.env.API_URL === undefined || process.env.API_VER === undefined)
-  throw new Error('API_URL or API_VER is undefined');
+if (process.env.API_URL === undefined || process.env.API_VER === undefined || process.env.CHANNEL_ID === undefined)
+  throw new Error('API_URL or API_VER or CHANNEL_ID is undefined');
 if (
   process.env.DISCORD_TOKEN === undefined ||
   process.env.GUILD_ID === undefined ||
@@ -30,12 +31,11 @@ registration(token, application_id, guild_id);
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
-client.once(Events.ClientReady, async () => {
-  const channel: TextChannel = client.channels.cache.get('1142545490848780419') as TextChannel;
-});
+client.once(Events.ClientReady, async () => {});
 
 client.on(Events.InteractionCreate, async (interaction) => {
-  console.log(interaction.isChatInputCommand());
+  const channel: TextChannel = client.channels.cache.get(process.env.CHANNEL_ID!) as TextChannel;
+
   if (!interaction.isChatInputCommand()) {
     if (interaction.isButton()) {
       if (interaction.customId === Command.Retry) {
@@ -60,6 +60,12 @@ client.on(Events.InteractionCreate, async (interaction) => {
   if (interaction.commandName === Command.Switch) {
     const command = await models(service);
     command.execute(interaction);
+  }
+  if (interaction.commandName === Command.Start) {
+    start.execute(interaction, channel, service);
+  }
+  if (interaction.commandName === Command.Stop) {
+    stop.execute(interaction, channel, service);
   }
 });
 client.login(token);
