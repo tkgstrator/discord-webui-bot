@@ -34,7 +34,9 @@ export const options = {
   execute: async (interaction: any) => {
     const clip_skip: number | undefined = interaction.options.getNumber('clip_skip') ?? undefined;
     const ensd: number | undefined = interaction.options.getNumber('ensd') ?? undefined;
+    const sd_unet: string | undefined = interaction.options.getNumber('sd_unet') ?? undefined;
     await service.set_options({
+      sd_unet: sd_unet,
       CLIP_stop_at_last_layers: clip_skip,
       eta_noise_seed_delta: ensd,
     });

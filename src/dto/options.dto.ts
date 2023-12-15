@@ -166,7 +166,7 @@ export class SDOptions {
   @Expose()
   sd_model_checkpoint?: string;
   @Expose()
-  sd_unet: string;
+  sd_unet?: string;
   @Expose()
   sd_vae?: string;
   // sd_vae_checkpoint_cache: number;
