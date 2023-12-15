@@ -103,7 +103,7 @@ export class Txt2ImgParams {
     height: number = 768,
     hr_scale: number = 1.5,
     hr_upscaler: UpscalerType = UpscalerType.Anime6B,
-    sampler_name: SamplerType = SamplerType.DDIM,
+    sampler_name: SamplerType = SamplerType.DPM2MSDEKarras,
     save_images: boolean = true,
     seed: number = -1,
     send_images: boolean = true,
