@@ -36,9 +36,9 @@ export const options = {
     const ensd: number | undefined = interaction.options.getNumber('ensd') ?? undefined;
     const sd_unet: string | undefined = interaction.options.getNumber('sd_unet') ?? undefined;
     await service.set_options({
-      sd_unet: sd_unet,
       CLIP_stop_at_last_layers: clip_skip,
       eta_noise_seed_delta: ensd,
+      sd_unet: sd_unet,
     });
     const response = await service.get_options();
     const content = new EmbedBuilder()
