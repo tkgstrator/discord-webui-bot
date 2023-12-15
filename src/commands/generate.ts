@@ -275,7 +275,7 @@ export const generate = async (service: SDClient) => {
       const prompt: string | null = interaction.options.getString('prompt');
       const upscaler: UpscalerType =
         Object.values(UpscalerType).find((upscaler) => upscaler === interaction.options.getString('upscaler')) ??
-        UpscalerType.Anime6B;
+        UpscalerType.Latent;
       const batch_size: number = interaction.options.getNumber('batch_size') ?? 4;
       const seed: number = interaction.options.getNumber('seed') ?? -1;
       /**

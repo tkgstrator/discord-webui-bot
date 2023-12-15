@@ -40,7 +40,7 @@ export const start = {
           false,
           interaction.user.id,
           prompt,
-          UpscalerType.Anime6B,
+          UpscalerType.Latent,
           batch_size,
           -1,
           2.0,
