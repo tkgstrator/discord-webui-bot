@@ -126,7 +126,7 @@ export async function generateImageAndReply(
           ? 'lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, normal quality, jpeg artifacts, signature, watermark, username, blurry'
           : 'EasyNegative, EasyNegativev2, negative_hand-neg',
         prompt: sdxl_support ? `face focus, cute, masterpiece, best quality, ${prompt}` : prompt,
-        sampler_name: sdxl_support ? SamplerType.DPM2Sa : SamplerType.DDIM,
+        sampler_name: sdxl_support ? SamplerType.DPM2Sa : SamplerType.DPM2MKarras,
         seed: seed,
         steps: sdxl_support ? 30 : 20,
         width: sdxl_support ? width * 1.5 : width,
