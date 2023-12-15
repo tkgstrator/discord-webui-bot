@@ -41,8 +41,8 @@ export const models = async (service: SDClient) => {
       const checkpoint: string | undefined = interaction.options.getString('checkpoint') ?? undefined;
       await interaction.deferReply({ ephemeral: false });
       const response = await service.set_options({
-        sd_unet: '[TRT] cetusMix_v4',
         sd_model_checkpoint: checkpoint,
+        sd_unet: '[TRT] cetusMix_v4',
       });
       if (checkpoint !== undefined && response) {
         const content = new EmbedBuilder()
