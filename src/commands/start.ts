@@ -20,7 +20,7 @@ export const start = {
   execute: async (interaction: ChatInputCommandInteraction, channel: TextChannel, service: SDClient) => {
     await interaction.reply({ content: 'Start generating', ephemeral: true });
     const count: number = interaction.options.getInteger('count') ?? 1;
-    const batch_size: number = interaction.options.getInteger('batch_size') ?? 1;
+    const batch_size: number = interaction.options.getInteger('batch_size') ?? 4;
     Array.from(Array(count).keys()).forEach(async (count) => {
       const prompt: string = prompts[Math.floor(Math.random() * prompts.length)];
       const size = [

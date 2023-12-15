@@ -276,7 +276,7 @@ export const generate = async (service: SDClient) => {
       const upscaler: UpscalerType =
         Object.values(UpscalerType).find((upscaler) => upscaler === interaction.options.getString('upscaler')) ??
         UpscalerType.Anime6B;
-      const batch_size: number = interaction.options.getNumber('batch_size') ?? 1;
+      const batch_size: number = interaction.options.getNumber('batch_size') ?? 4;
       const seed: number = interaction.options.getNumber('seed') ?? -1;
       /**
        * Hires fix.

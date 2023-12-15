@@ -24,7 +24,7 @@ export class Txt2ImgRequest implements RequestType {
       height: 768,
       hr_second_pass_steps: (parameters.steps || 20) >> 1,
       hr_upscaler: UpscalerType.Anime6B,
-      sampler_name: SamplerType.DDIM,
+      sampler_name: SamplerType.DPM2MSDEKarras,
       save_images: true,
       seed: -1,
       send_images: true,
