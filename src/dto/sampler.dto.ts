@@ -44,6 +44,7 @@ export class Sampler {
 
 export enum SamplerType {
   DPM2Sa = 'DPM++ 2S a',
+  DPM2MKarras = 'DPM++ 2M Karras',
   DPM2MSDEKarras = 'DPM++ 2M SDE Karras',
   DDIM = 'DDIM',
 }
