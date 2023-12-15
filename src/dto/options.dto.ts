@@ -165,7 +165,8 @@ export class SDOptions {
   // sd_lyco: string;
   @Expose()
   sd_model_checkpoint?: string;
-  // sd_unet: string;
+  @Expose()
+  sd_unet: string;
   @Expose()
   sd_vae?: string;
   // sd_vae_checkpoint_cache: number;

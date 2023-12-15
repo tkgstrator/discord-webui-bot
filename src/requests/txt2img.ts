@@ -18,7 +18,7 @@ export class Txt2ImgRequest implements RequestType {
      * Hires stepsは実ステップの半分
      */
     const params: Partial<Txt2ImgParams> = {
-      batch_size: 1,
+      batch_size: 4,
       cfg_scale: 12.0,
       denoising_strength: 0.55,
       height: 768,
