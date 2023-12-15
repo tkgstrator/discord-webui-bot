@@ -1,4 +1,4 @@
-FROM node:18.17.1-slim
+FROM node:18.17.1-slim as build
 WORKDIR /build
 
 COPY src ./src/
@@ -13,7 +13,7 @@ COPY .yarnrc.yaml .
 RUN yarn install
 RUN yarn build
 
-FROM node:18.17.1-slim
+FROM node:18.17.1-slim as module
 WORKDIR /module
 
 COPY src ./src/
