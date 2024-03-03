@@ -9,4 +9,3 @@ const request: Txt2ImgParams = new Txt2ImgParams(
   'EasyNegative,EasyNegativev2,negative_hand-neg',
 )
 const response = await client.txt2img(request)
-console.log(response)

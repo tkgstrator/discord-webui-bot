@@ -1,27 +1,38 @@
 import { plainToInstance } from 'class-transformer'
-import { validateSync } from 'class-validator'
+import { IsNotEmpty, IsSemVer, IsString, validateSync } from 'class-validator'
 import * as dotenv from 'dotenv'
 
-export class SDBotConfig {}
+export class SDBotConfig {
+  @IsString()
+  @IsNotEmpty()
+  readonly DISCORD_APPLICATION_ID: string
+
+  @IsString()
+  @IsNotEmpty()
+  readonly DISCORD_APPLICATION_SECRET: string
+
+  @IsSemVer()
+  readonly DISCORD_BOT_VERSION: string
+
+  @IsString()
+  @IsNotEmpty()
+  readonly DISCORD_GUILD_ID: string
+}
 
 export const config: SDBotConfig = (() => {
-  dotenv.config({ path: '.env' })
+  dotenv.config({ override: true, path: '.env' })
 
   const configuration = plainToInstance(
     SDBotConfig,
     {
-      application_id: process.env.DISCORD_APPLICATION_ID,
-      application_secret: process.env.DISCORD_APPLICATION_SECRET,
-      bot_version: process.env.BOT_VERSION,
-      f_api_url: process.env.F_API_URL,
-      guild_id: process.env.DISCORD_GUILD_ID,
-      is_development: process.env.NODE_ENV === 'development',
-      url: process.env.API_URL,
-      version: process.env.VERSION,
+      DISCORD_APPLICATION_ID: process.env.DISCORD_APPLICATION_ID,
+      DISCORD_APPLICATION_SECRET: process.env.DISCORD_APPLICATION_SECRET,
+      DISCORD_BOT_VERSION: process.env.DISCORD_BOT_VERSION,
+      DISCORD_GUILD_ID: process.env.DISCORD_GUILD_ID,
     },
     { enableImplicitConversion: true, excludeExtraneousValues: false },
   )
-  const errors = validateSync(configuration, { enableDebugMessages: true, stopAtFirstError: true, whitelist: true })
+  const errors = validateSync(configuration, { enableDebugMessages: true, stopAtFirstError: false, whitelist: true })
   if (errors.length > 0) {
     throw new Error(errors.toString())
   }
