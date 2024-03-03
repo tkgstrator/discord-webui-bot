@@ -1,15 +1,17 @@
 import fetch, { Headers } from 'node-fetch'
 
-import { SDAPIOptions } from './dto/options.dto'
+import { SDAPISDModel } from './dto/model.dto'
+import { SDAPIOption } from './dto/options.dto'
 import { SDAPISampler } from './dto/samplers.dto'
+import { SDAPIUpcaler } from './dto/upscaler.dto'
 import { SDOptionsRequest } from './requests/options'
 import { SDSamplerRequest } from './requests/samplers'
+import { SDModelsRequest } from './requests/sd_models'
+import { SDUpscalerRequest } from './requests/upscaler'
 
 import { config } from '@/config'
-import { SDModel } from '@/dto/models.dto'
 import { Txt2ImgParams, Txt2ImgResponse } from '@/dto/txt2img.dto'
 import { RequestType } from '@/request'
-import { SDModelsRequest } from '@/requests/sd_models'
 import { Txt2ImgRequest } from '@/requests/txt2img'
 
 export class SDClient {
@@ -20,16 +22,20 @@ export class SDClient {
     return this.request(new Txt2ImgRequest(request))
   }
 
-  static async get_sd_models(): Promise<SDModel[]> {
+  static async get_sd_models(): Promise<SDAPISDModel[]> {
     return this.request(new SDModelsRequest())
   }
 
-  static async get_sd_options(): Promise<SDAPIOptions> {
+  static async get_sd_options(): Promise<SDAPIOption> {
     return this.request(new SDOptionsRequest())
   }
 
   static async get_sd_samplers(): Promise<SDAPISampler[]> {
     return this.request(new SDSamplerRequest())
+  }
+
+  static async get_sd_upscalers(): Promise<SDAPIUpcaler[]> {
+    return this.request(new SDUpscalerRequest())
   }
 
   private static async request<T extends RequestType, U extends ReturnType<T['request']>>(request: T): Promise<U> {

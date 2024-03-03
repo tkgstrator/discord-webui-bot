@@ -1,6 +1,16 @@
 import { Expose, Type } from 'class-transformer'
 import 'reflect-metadata'
 
+enum BrownianNoise {
+  TRUE = 'True',
+  FALSE = 'False',
+}
+
+enum Scheduler {
+  KARRAS = 'karras',
+  EXPONENTIAL = 'exponential',
+}
+
 export class SDAPISampler {
   @Expose()
   readonly aliases: string[]
@@ -11,16 +21,6 @@ export class SDAPISampler {
   @Expose()
   @Type(() => SDAPISamplerOption)
   readonly options: SDAPISamplerOption
-}
-
-enum BrownianNoise {
-  TRUE = 'True',
-  FALSE = 'False',
-}
-
-enum Scheduler {
-  KARRAS = 'karras',
-  EXPONENTIAL = 'exponential',
 }
 
 class SDAPISamplerOption {
