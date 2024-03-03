@@ -20,7 +20,7 @@
     "class-transformer": "^0.5.1",
     "discord.js": "^14.12.1",
     "node-fetch": "^3.3.2",
-    "reflect-metadata": "^0.1.13"
+    "reflect-metadata": "^0.2.1"
   },
   "devDependencies": {
     "@commitlint/cli": "latest",

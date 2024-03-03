@@ -1,7 +1,7 @@
 import { plainToInstance } from 'class-transformer'
 
-import { SDModel } from '../dto/models.dto.js'
-import { Method, RequestType } from '../request.js'
+import { SDModel } from '@/dto/models.dto'
+import { Method, RequestType } from '@/request'
 
 export class SDModelsRequest implements RequestType {
   readonly method: Method = Method.GET
