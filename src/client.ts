@@ -1,5 +1,10 @@
 import fetch, { Headers } from 'node-fetch'
 
+import { SDAPIOptions } from './dto/options.dto'
+import { SDAPISampler } from './dto/samplers.dto'
+import { SDOptionsRequest } from './requests/options'
+import { SDSamplerRequest } from './requests/samplers'
+
 import { config } from '@/config'
 import { SDModel } from '@/dto/models.dto'
 import { Txt2ImgParams, Txt2ImgResponse } from '@/dto/txt2img.dto'
@@ -17,6 +22,14 @@ export class SDClient {
 
   static async get_sd_models(): Promise<SDModel[]> {
     return this.request(new SDModelsRequest())
+  }
+
+  static async get_sd_options(): Promise<SDAPIOptions> {
+    return this.request(new SDOptionsRequest())
+  }
+
+  static async get_sd_samplers(): Promise<SDAPISampler[]> {
+    return this.request(new SDSamplerRequest())
   }
 
   private static async request<T extends RequestType, U extends ReturnType<T['request']>>(request: T): Promise<U> {

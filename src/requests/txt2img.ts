@@ -1,11 +1,12 @@
 import { plainToInstance } from 'class-transformer'
 
 import { Txt2ImgParams, Txt2ImgResponse } from '@/dto/txt2img.dto'
+import { SDAPIPath } from '@/enum/path'
 import { Method, RequestType } from '@/request'
 
 export class Txt2ImgRequest implements RequestType {
   readonly method: Method = Method.POST
-  readonly path: string = 'txt2img'
+  readonly path: SDAPIPath = SDAPIPath.TXT2IMG
   readonly headers: Record<string, string> = {
     'Content-Type': 'application/json',
   }
