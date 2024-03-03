@@ -1,6 +1,6 @@
 import { plainToInstance } from 'class-transformer'
 
-import { SDAPISDModel } from '@/dto/model.dto'
+import { SDAPISDModel } from '@/dto/sd_model.dto'
 import { SDAPIPath } from '@/enum/path'
 import { Method, RequestType } from '@/request'
 
