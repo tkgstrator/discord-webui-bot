@@ -1,25 +1,25 @@
 import fetch, { Headers } from 'node-fetch'
 
-import { SDAPISDModel } from './dto/model.dto'
 import { SDAPIOption } from './dto/options.dto'
 import { SDAPISampler } from './dto/samplers.dto'
+import { SDAPISDModel } from './dto/sd_model.dto'
+import { SDAPITxt2Img } from './dto/txt2img.dto'
 import { SDAPIUpcaler } from './dto/upscaler.dto'
 import { SDOptionsRequest } from './requests/options'
 import { SDSamplerRequest } from './requests/samplers'
 import { SDModelsRequest } from './requests/sd_models'
+import { SDTxt2ImgRequest } from './requests/txt2img'
 import { SDUpscalerRequest } from './requests/upscaler'
 
 import { config } from '@/config'
-import { Txt2ImgParams, Txt2ImgResponse } from '@/dto/txt2img.dto'
 import { RequestType } from '@/request'
-import { Txt2ImgRequest } from '@/requests/txt2img'
 
 export class SDClient {
   private static readonly base_url: string = config.SDWEB_API_URL
   private static readonly version: string = config.SDWEB_API_VER
 
-  static async txt2img(request: Txt2ImgParams): Promise<Txt2ImgResponse> {
-    return this.request(new Txt2ImgRequest(request))
+  static async txt2img(request: SDAPITxt2Img.Request): Promise<SDAPITxt2Img.Response> {
+    return this.request(new SDTxt2ImgRequest(request))
   }
 
   static async get_sd_models(): Promise<SDAPISDModel[]> {
