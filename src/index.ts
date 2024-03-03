@@ -1,11 +1,4 @@
-import { SDClient } from './client.js'
-import { Txt2ImgParams } from './dto/txt2img.dto.js'
-const client = new SDClient()
+import { SDClient } from '@/client'
 
-dotenv.config()
-
-const request: Txt2ImgParams = new Txt2ImgParams(
-  '1girl, glasses, black long straight hair',
-  'EasyNegative,EasyNegativev2,negative_hand-neg',
-)
-const response = await client.txt2img(request)
+const response = await SDClient.get_sd_models()
+console.log(response)
