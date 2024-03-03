@@ -1,12 +1,12 @@
 import { plainToInstance } from 'class-transformer'
 
-import { SDAPIOptions } from '@/dto/options.dto'
+import { SDAPISampler } from '@/dto/samplers.dto'
 import { SDAPIPath } from '@/enum/path'
 import { Method, RequestType } from '@/request'
 
-export class SDOptionsRequest implements RequestType {
+export class SDSamplerRequest implements RequestType {
   readonly method: Method = Method.GET
-  readonly path: SDAPIPath = SDAPIPath.OPTIONS
+  readonly path: SDAPIPath = SDAPIPath.SAMPLERS
   readonly headers: Record<string, string>
   readonly parameters: string | URLSearchParams | undefined
 
@@ -14,7 +14,7 @@ export class SDOptionsRequest implements RequestType {
     this.parameters = undefined
   }
 
-  request(response: any): SDAPIOptions {
-    return plainToInstance(SDAPIOptions, response, { excludeExtraneousValues: true })
+  request(response: any): SDAPISampler[] {
+    return response.map((res: any) => plainToInstance(SDAPISampler, res, { excludeExtraneousValues: true }))
   }
 }
