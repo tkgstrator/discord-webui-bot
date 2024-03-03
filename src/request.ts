@@ -6,10 +6,10 @@ export enum Method {
 export interface ResponseType {}
 
 export interface RequestType {
-  readonly headers: Record<string, string>;
-  readonly method: Method;
-  readonly parameters: string | URLSearchParams | undefined;
-  readonly path: string;
+  readonly headers: Record<string, string>
+  readonly method: Method
+  readonly parameters: string | URLSearchParams | undefined
+  readonly path: string
 
-  request(response: any): ResponseType | void;
+  request(response: any): ResponseType | void
 }

@@ -1,46 +1,18 @@
-import { Expose, Type } from 'class-transformer';
-import 'reflect-metadata';
-
-class State {
-  @Expose()
-  skipped: boolean;
-
-  @Expose()
-  interrupted: boolean;
-
-  @Expose()
-  job: string;
-
-  @Expose()
-  job_count: number;
-
-  @Expose()
-  job_timestamp: string;
-
-  @Expose()
-  job_no: number;
-
-  @Expose()
-  sampling_step: number;
-
-  @Expose()
-  sampling_steps: number;
+export interface Progress {
+  current_image: null
+  eta_relative: number
+  progress: number
+  state: State
+  textinfo: null
 }
 
-export class SDProgress {
-  @Expose()
-  progress: number;
-
-  @Expose()
-  eta_relative: number;
-
-  @Expose()
-  @Type(() => State)
-  state: State;
-
-  @Expose()
-  current_image: null;
-
-  @Expose()
-  textinfo: null;
+export interface State {
+  interrupted: boolean
+  job: string
+  job_count: number
+  job_no: number
+  job_timestamp: string
+  sampling_step: number
+  sampling_steps: number
+  skipped: boolean
 }
