@@ -1,6 +1,6 @@
 import { plainToInstance } from 'class-transformer'
 
-import { SDModel } from '@/dto/models.dto'
+import { SDAPISDModel } from '@/dto/model.dto'
 import { SDAPIPath } from '@/enum/path'
 import { Method, RequestType } from '@/request'
 
@@ -14,7 +14,7 @@ export class SDModelsRequest implements RequestType {
     this.parameters = undefined
   }
 
-  request(response: any): SDModel[] {
-    return response.map((res: any) => plainToInstance(SDModel, res, { excludeExtraneousValues: true }))
+  request(response: any): SDAPISDModel[] {
+    return response.map((res: any) => plainToInstance(SDAPISDModel, res, { excludeExtraneousValues: true }))
   }
 }

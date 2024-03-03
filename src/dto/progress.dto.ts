@@ -1,18 +1,18 @@
 export interface Progress {
-  current_image: null
-  eta_relative: number
-  progress: number
-  state: State
-  textinfo: null
+  readonly current_image: null
+  readonly eta_relative: number
+  readonly progress: number
+  readonly state: State
+  readonly textinfo: null
 }
 
 export interface State {
-  interrupted: boolean
-  job: string
-  job_count: number
-  job_no: number
-  job_timestamp: string
-  sampling_step: number
-  sampling_steps: number
-  skipped: boolean
+  readonly interrupted: boolean
+  readonly job: string
+  readonly job_count: number
+  readonly job_no: number
+  readonly job_timestamp: string
+  readonly sampling_step: number
+  readonly sampling_steps: number
+  readonly skipped: boolean
 }

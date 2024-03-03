@@ -1,31 +1,31 @@
 import { Expose } from 'class-transformer'
 import { IsHash, IsNotEmpty, IsOptional, IsString } from 'class-validator'
 
-export class SDModel {
+export class SDAPISDModel {
   @Expose()
   @IsString()
   @IsNotEmpty()
-  title: string
+  readonly title: string
 
   @Expose()
   @IsString()
   @IsNotEmpty()
-  model_name: string
+  readonly model_name: string
 
   @Expose()
   @IsString()
   @IsNotEmpty()
   @IsOptional()
-  hash: null | string
+  readonly hash: null | string
 
   @Expose()
   @IsHash('sha256')
   @IsOptional()
-  sha256: null | string
+  readonly sha256: null | string
 
   @Expose()
   @IsString()
   @IsNotEmpty()
-  filename: string
+  readonly filename: string
   // config:     null;
 }

@@ -1,17 +1,20 @@
-import { plainToInstance } from 'class-transformer';
+import { plainToInstance } from 'class-transformer'
 
-import { Upscaler } from '../dto/upscaler.dto.js';
-import { Method, RequestType } from '../request.js';
+import { SDAPIUpcaler } from '@/dto/upscaler.dto'
+import { SDAPIPath } from '@/enum/path'
+import { Method, RequestType } from '@/request'
 
-export class UpscalerRequest implements RequestType {
-  readonly method: Method = Method.GET;
-  readonly path: string = 'upscalers';
-  readonly headers: Record<string, string>;
-  readonly parameters: string | URLSearchParams | undefined;
+export class SDUpscalerRequest implements RequestType {
+  readonly method: Method = Method.GET
+  readonly path: SDAPIPath = SDAPIPath.UPSCALERS
+  readonly headers: Record<string, string>
+  readonly parameters: string | URLSearchParams | undefined
 
-  constructor() {}
+  constructor() {
+    this.parameters = undefined
+  }
 
-  request(response: any): Upscaler[] {
-    return response.map((res: any) => plainToInstance(Upscaler, res, { excludeExtraneousValues: true }));
+  request(response: any): SDAPIUpcaler[] {
+    return response.map((res: any) => plainToInstance(SDAPIUpcaler, res, { excludeExtraneousValues: true }))
   }
 }
