@@ -1,5 +1,5 @@
-import { Expose, Type } from 'class-transformer'
-import { IsArray, IsBase64, IsNotEmpty, IsString } from 'class-validator'
+import { Expose, Transform, Type, plainToInstance } from 'class-transformer'
+import { IsArray, IsBase64 } from 'class-validator'
 import 'reflect-metadata'
 
 class APIPayload {
@@ -238,8 +238,10 @@ export namespace SDAPITxt2Img {
     readonly parameters: SDAPITxt2Img.Request
 
     @Expose()
-    @IsString()
-    @IsNotEmpty()
-    readonly info: string
+    @Transform(({ value }) =>
+      plainToInstance(SDAPITxt2Img.Request, JSON.parse(value), { excludeExtraneousValues: true }),
+    )
+    @Type(() => SDAPITxt2Img.Request)
+    readonly info: SDAPITxt2Img.Request
   }
 }
