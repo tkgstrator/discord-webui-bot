@@ -8,6 +8,7 @@ import {
   ModalBuilder,
   ModalSubmitInteraction,
   AttachmentBuilder,
+  EmbedBuilder,
 } from 'discord.js'
 
 import prompt from '../../test/txt2img.json'
@@ -47,7 +48,33 @@ export class DiscordCommnadManager {
       const attachments: AttachmentBuilder[] = response.buffers.map((buffer) =>
         new AttachmentBuilder(buffer).setName('image.png'),
       )
-      await interaction.editReply({ content: 'Generated Image', files: attachments })
+      const components: EmbedBuilder = new EmbedBuilder()
+        .setTitle('Generated')
+        .setColor('#0099FF')
+        .addFields(
+          {
+            name: 'Prompt',
+            value: response.info.prompt,
+          },
+          {
+            inline: true,
+            name: 'Width',
+            value: response.info.width.toString(),
+          },
+          {
+            inline: true,
+            name: 'Height',
+            value: response.info.height.toString(),
+          },
+          {
+            inline: true,
+            name: 'Sampler',
+            value: response.info.sampler_name,
+          },
+        )
+        .setFooter({ text: 'Stable Diffusion WebUI' })
+        .setTimestamp()
+      await interaction.editReply({ embeds: [components], files: attachments })
       // await message.edit({ content: 'Generated Image', files: attachments })
     },
     slash: new SlashCommandBuilder()
