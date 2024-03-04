@@ -97,7 +97,7 @@
   "sampler_name": "DPM++ 2M Karras",
   "script_args": [],
   "script_name": null,
-  "seed": 2792215904,
+  "seed": -1,
   "seed_enable_extras": true,
   "seed_resize_from_h": -1,
   "seed_resize_from_w": -1,
@@ -107,10 +107,10 @@
     "Best quality",
     "Masterpiece"
   ],
-  "subseed": 1721194098,
+  "subseed": -1,
   "subseed_strength": 0,
   "tiling": false,
   "width": 832,
-  "save_images": true,
-  "send_images": false
+  "save_images": false,
+  "send_images": true
 }
