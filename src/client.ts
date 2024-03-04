@@ -1,18 +1,17 @@
 import fetch, { Headers } from 'node-fetch'
 
-import { SDAPIOption } from './dto/options.dto'
-import { SDAPISampler } from './dto/samplers.dto'
-import { SDAPISDModel } from './dto/sd_model.dto'
-import { SDAPITxt2Img } from './dto/txt2img.dto'
-import { SDAPIUpcaler } from './dto/upscaler.dto'
-import { SDOptionsRequest } from './requests/options'
-import { SDSamplerRequest } from './requests/samplers'
-import { SDModelsRequest } from './requests/sd_models'
-import { SDTxt2ImgRequest } from './requests/txt2img'
-import { SDUpscalerRequest } from './requests/upscaler'
-
 import { config } from '@/config'
+import { SDAPIOptions } from '@/dto/options.dto'
+import { SDAPISampler } from '@/dto/samplers.dto'
+import { SDAPISDModel } from '@/dto/sd_model.dto'
+import { SDAPITxt2Img } from '@/dto/txt2img.dto'
+import { SDAPIUpcaler } from '@/dto/upscaler.dto'
 import { RequestType } from '@/request'
+import { SDOptionsRequest } from '@/requests/options'
+import { SDSamplerRequest } from '@/requests/samplers'
+import { SDModelsRequest } from '@/requests/sd_models'
+import { SDTxt2ImgRequest } from '@/requests/txt2img'
+import { SDUpscalerRequest } from '@/requests/upscaler'
 
 export class SDClient {
   private static readonly base_url: string = config.SDWEB_API_URL
@@ -26,7 +25,7 @@ export class SDClient {
     return this.request(new SDModelsRequest())
   }
 
-  static async get_sd_options(): Promise<SDAPIOption> {
+  static async get_sd_options(): Promise<SDAPIOptions> {
     return this.request(new SDOptionsRequest())
   }
 

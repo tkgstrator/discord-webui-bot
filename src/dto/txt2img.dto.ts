@@ -1,4 +1,5 @@
 import { Expose, Type } from 'class-transformer'
+import { IsArray, IsBase64, IsNotEmpty, IsString } from 'class-validator'
 import 'reflect-metadata'
 
 class APIPayload {
@@ -43,6 +44,54 @@ class AlwaysonScripts {
 }
 
 export namespace SDAPITxt2Img {
+  export class Param implements Partial<SDAPITxt2Img.Request> {
+    @Expose()
+    @Type(() => AlwaysonScripts)
+    readonly alwayson_scripts: AlwaysonScripts
+
+    @Expose()
+    readonly batch_size: number
+
+    @Expose()
+    readonly cfg_scale: number
+
+    @Expose()
+    readonly enable_hr: boolean
+
+    @Expose()
+    readonly height: number
+
+    @Expose()
+    readonly hr_scale: number
+
+    @Expose()
+    readonly hr_upscaler: string
+
+    @Expose()
+    readonly negative_prompt: string
+
+    @Expose()
+    readonly prompt: string
+
+    @Expose()
+    readonly sampler_name: string
+
+    @Expose()
+    readonly save_images: boolean
+
+    @Expose()
+    readonly seed: number
+
+    @Expose()
+    readonly steps: number
+
+    @Expose()
+    readonly styles: string[]
+
+    @Expose()
+    readonly width: number
+  }
+
   export class Request {
     @Expose()
     @Type(() => AlwaysonScripts)
@@ -174,5 +223,23 @@ export namespace SDAPITxt2Img {
     readonly width: number
   }
 
-  export class Response {}
+  export class Response {
+    get buffers(): Buffer[] {
+      return this.images.map((image) => Buffer.from(image, 'base64'))
+    }
+
+    @Expose()
+    @IsBase64(undefined, { each: true })
+    @IsArray()
+    readonly images: string[]
+
+    @Expose()
+    @Type(() => SDAPITxt2Img.Request)
+    readonly parameters: SDAPITxt2Img.Request
+
+    @Expose()
+    @IsString()
+    @IsNotEmpty()
+    readonly info: string
+  }
 }
