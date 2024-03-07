@@ -9,9 +9,9 @@ import {
   Routes,
 } from 'discord.js'
 
-import { DiscordCommandId } from './commands/command_id'
-import { DiscordCommnadManager } from './commands/txt2img'
-import { config } from './config'
+import { DiscordCommandId } from '@/commands/command_id'
+import { DiscordCommnadManager } from '@/commands/txt2img'
+import { config } from '@/config'
 
 const client = new Client({
   intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages],

@@ -9,4 +9,5 @@ export enum SDAPIPath {
   SD_VAE = 'sd_vae',
   EMBEDDINGS = 'embeddings',
   PROMPT_STYLES = 'prompt-styles',
+  SYSTEM_STATUS = 'system-info/status',
 }
