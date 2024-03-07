@@ -1,18 +1,18 @@
-export {};
+export {}
 
 declare global {
   interface String {
-    toCode(): string;
+    toCode(): string
   }
   interface Number {
-    toCode(): string;
+    toCode(): string
   }
 }
 
 String.prototype.toCode = function () {
-  return `\`${this}\``;
-};
+  return `\`${this}\``
+}
 
 Number.prototype.toCode = function () {
-  return `\`${this}\``;
-};
+  return `\`${this}\``
+}

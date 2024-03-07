@@ -1,7 +1,7 @@
-import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
+import { SlashCommandBuilder, EmbedBuilder } from 'discord.js'
 
-import { service } from '../index.js';
-import '../extension.js';
+import { service } from '../index.js'
+import '../extension.js'
 
 export const options = {
   data: new SlashCommandBuilder()
@@ -32,15 +32,15 @@ export const options = {
       ),
     ),
   execute: async (interaction: any) => {
-    const clip_skip: number | undefined = interaction.options.getNumber('clip_skip') ?? undefined;
-    const ensd: number | undefined = interaction.options.getNumber('ensd') ?? undefined;
-    const sd_unet: string | undefined = interaction.options.getNumber('sd_unet') ?? undefined;
+    const clip_skip: number | undefined = interaction.options.getNumber('clip_skip') ?? undefined
+    const ensd: number | undefined = interaction.options.getNumber('ensd') ?? undefined
+    const sd_unet: string | undefined = interaction.options.getNumber('sd_unet') ?? undefined
     await service.set_options({
       CLIP_stop_at_last_layers: clip_skip,
       eta_noise_seed_delta: ensd,
       sd_unet: sd_unet,
-    });
-    const response = await service.get_options();
+    })
+    const response = await service.get_options()
     const content = new EmbedBuilder()
       .setColor('#0099FF')
       .setTitle('Update options successfully')
@@ -67,7 +67,7 @@ export const options = {
           value: response.sd_vae!.toCode(),
         },
       )
-      .setTimestamp();
-    await interaction.reply({ embeds: [content] });
+      .setTimestamp()
+    await interaction.reply({ embeds: [content] })
   },
-};
+}

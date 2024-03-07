@@ -1,12 +1,12 @@
-import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
+import { SlashCommandBuilder, EmbedBuilder } from 'discord.js'
 
-import { SDBaseModel, SDModel } from '../dto/models.dto.js';
+import { SDBaseModel, SDModel } from '../dto/models.dto.js'
 
-import { SDClient } from '~/client';
-import '../extension.js';
+import { SDClient } from '~/client'
+import '../extension.js'
 
 export const models = async (service: SDClient) => {
-  const checkpoints: SDModel[] = await service.get_checkpoints();
+  const checkpoints: SDModel[] = await service.get_checkpoints()
   return {
     data: new SlashCommandBuilder()
       .setName('switch')
@@ -21,7 +21,7 @@ export const models = async (service: SDClient) => {
               return {
                 name: model.model_name,
                 value: model.title,
-              };
+              }
             }),
           ),
       )
@@ -38,12 +38,12 @@ export const models = async (service: SDClient) => {
           ),
       ),
     execute: async (interaction: any) => {
-      const checkpoint: string | undefined = interaction.options.getString('checkpoint') ?? undefined;
-      await interaction.deferReply({ ephemeral: false });
+      const checkpoint: string | undefined = interaction.options.getString('checkpoint') ?? undefined
+      await interaction.deferReply({ ephemeral: false })
       const response = await service.set_options({
         sd_model_checkpoint: checkpoint,
         sd_unet: '[TRT] cetusMix_v4',
-      });
+      })
       if (checkpoint !== undefined && response) {
         const content = new EmbedBuilder()
           .setColor('#0099FF')
@@ -54,9 +54,9 @@ export const models = async (service: SDClient) => {
             name: 'checkpoint',
             value: checkpoint.toCode(),
           })
-          .setTimestamp();
-        await interaction.editReply({ embeds: [content] });
+          .setTimestamp()
+        await interaction.editReply({ embeds: [content] })
       }
     },
-  };
-};
+  }
+}
