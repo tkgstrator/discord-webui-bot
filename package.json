@@ -7,8 +7,10 @@
   "scripts": {
     "commit": "git-cz",
     "dev": "bun src/index.ts",
-    "format": "prettier --write \"src/**/*.ts\"",
-    "lint": "eslint --ignore-path .gitignore '{src,test}/**/*.ts' --fix",
+    "format": "prettier --check \"src/**/*.ts\"",
+    "format:fix": "prettier --write \"src/**/*.ts\"",
+    "lint": "eslint --max-warnings=0 --ignore-path .gitignore '{src,test}/**/*.ts'",
+    "lint:fix": "eslint --ignore-path .gitignore '{src,test}/**/*.ts' --fix",
     "prepare": "husky"
   },
   "config": {
