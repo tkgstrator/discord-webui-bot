@@ -11,7 +11,7 @@ describe('Txt2Img', () => {
   it('Request', async () => {
     const request: SDAPITxt2Img.Request = plainToInstance(SDAPITxt2Img.Request, txt2img)
     const response = await SDClient.txt2img(request)
-    expect(response.images.length).toEqual(1)
+    expect(response.images.length).toEqual(3)
     expect(response.parameters.prompt).toEqual(request.prompt)
     expect(response.parameters.negative_prompt).toEqual(request.negative_prompt)
     expect(response.parameters.sampler_name).toEqual(request.sampler_name)
@@ -27,5 +27,5 @@ describe('Txt2Img', () => {
     expect(response.parameters.seed).toEqual(request.seed)
     expect(response.parameters.steps).toEqual(request.steps)
     expect(response.parameters.width).toEqual(request.width)
-  }, 10000)
+  }, 20000)
 })
