@@ -7,6 +7,6 @@ export const Command = {
   Status: 'status',
   Stop: 'stop',
   Switch: 'switch',
-} as const;
+} as const
 
-export type Command = (typeof Command)[keyof typeof Command];
+export type Command = (typeof Command)[keyof typeof Command]

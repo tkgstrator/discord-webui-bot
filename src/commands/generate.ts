@@ -11,22 +11,22 @@ import {
   MessagePayload,
   Message,
   InteractionResponse,
-} from 'discord.js';
+} from 'discord.js'
 
-import { base64ToPng } from '../base64.js';
-import { SDClient } from '../client.js';
-import { SDProgress } from '../dto/progress.dto.js';
-import { SamplerType } from '../dto/sampler.dto.js';
-import { Upscaler, UpscalerType } from '../dto/upscaler.dto.js';
+import { base64ToPng } from '../base64.js'
+import { SDClient } from '../client.js'
+import { SDProgress } from '../dto/progress.dto.js'
+import { SamplerType } from '../dto/sampler.dto.js'
+import { Upscaler, UpscalerType } from '../dto/upscaler.dto.js'
 
-import '../extension.js';
-import { Txt2ImgResponse } from '~/dto/txt2img.dto';
+import '../extension.js'
+import { Txt2ImgResponse } from '~/dto/txt2img.dto'
 
-type Interaction = ChatInputCommandInteraction | ButtonInteraction | TextChannel;
+type Interaction = ChatInputCommandInteraction | ButtonInteraction | TextChannel
 
 async function deferReply(interaction: Interaction, ephemeral: boolean = true): Promise<InteractionResponse | void> {
-  if (interaction instanceof TextChannel) return;
-  return await interaction.deferReply({ ephemeral: ephemeral });
+  if (interaction instanceof TextChannel) return
+  return await interaction.deferReply({ ephemeral: ephemeral })
 }
 
 async function editReply(
@@ -35,16 +35,16 @@ async function editReply(
   in_progress: boolean = true,
 ): Promise<Message | void> {
   if (interaction instanceof TextChannel) {
-    if (!in_progress) return;
-    await interaction.send(options);
+    if (!in_progress) return
+    await interaction.send(options)
   } else {
-    return await interaction.editReply(options);
+    return await interaction.editReply(options)
   }
 }
 
 async function deleteReply(interaction: Interaction): Promise<void> {
-  if (interaction instanceof TextChannel) return;
-  return await interaction.deleteReply();
+  if (interaction instanceof TextChannel) return
+  return await interaction.deleteReply()
 }
 
 export async function generateImageAndReply(
@@ -62,19 +62,19 @@ export async function generateImageAndReply(
   height: number = 768,
 ) {
   try {
-    await deferReply(interaction, false);
-    let is_finished: boolean = false;
-    const { sd_model_checkpoint } = await service.get_options();
+    await deferReply(interaction, false)
+    let is_finished: boolean = false
+    const { sd_model_checkpoint } = await service.get_options()
     const waiting = async () => {
       while (!is_finished) {
-        await new Promise((resolve) => setTimeout(resolve, 500));
-        const progress: SDProgress = await service.get_progress(true);
-        if (progress.progress === 0) continue;
+        await new Promise((resolve) => setTimeout(resolve, 500))
+        const progress: SDProgress = await service.get_progress(true)
+        if (progress.progress === 0) continue
         /**
          * 進捗100%か残り時間が0になったら完了
          */
-        if (progress.progress === 1 || progress.eta_relative === 0) is_finished = true;
-        const estimated_time: string = Math.max(0, progress.eta_relative).toFixed(2);
+        if (progress.progress === 1 || progress.eta_relative === 0) is_finished = true
+        const estimated_time: string = Math.max(0, progress.eta_relative).toFixed(2)
         const content = new EmbedBuilder()
           .setColor('#0099FF')
           .setTitle(is_finished ? 'Generated' : 'Generating')
@@ -105,11 +105,11 @@ export async function generateImageAndReply(
               value: `${progress.state.sampling_step}/${progress.state.sampling_steps}`.toCode(),
             },
           )
-          .setTimestamp();
+          .setTimestamp()
         // @ts-ignore
-        await editReply(interaction, { embeds: [content] }, false);
+        await editReply(interaction, { embeds: [content] }, false)
       }
-    };
+    }
 
     /**
      * 生成完了
@@ -132,17 +132,17 @@ export async function generateImageAndReply(
         width: sdxl_support ? width * 1.5 : width,
       })
       .then((result: Txt2ImgResponse) => {
-        is_finished = true;
-        return result;
-      });
+        is_finished = true
+        return result
+      })
 
-    const [response, _] = await Promise.all([generate, waiting()]);
+    const [response, _] = await Promise.all([generate, waiting()])
     /**
      * 画像を添付
      */
     const attachments = response.images.map((image: string) =>
       new AttachmentBuilder(base64ToPng(image)).setName('image.png'),
-    );
+    )
     const content = new EmbedBuilder()
       .setColor('#0099FF')
       .setTitle('Generated')
@@ -202,14 +202,14 @@ export async function generateImageAndReply(
           value: sdxl_support.toString().toCode(),
         },
       )
-      .setTimestamp();
+      .setTimestamp()
 
     const action: ActionRowBuilder = new ActionRowBuilder().addComponents(
       ...[
         new ButtonBuilder().setStyle(ButtonStyle.Primary).setLabel('Retry').setCustomId('retry'),
         new ButtonBuilder().setStyle(ButtonStyle.Danger).setLabel('Delete').setCustomId('delete'),
       ],
-    );
+    )
     await editReply(interaction, {
       // @ts-ignore
       components: [action],
@@ -218,14 +218,14 @@ export async function generateImageAndReply(
       ephemeral: false,
       // @ts-ignore
       files: attachments,
-    });
+    })
   } catch (error) {
-    await deleteReply(interaction);
+    await deleteReply(interaction)
   }
 }
 
 export const generate = async (service: SDClient) => {
-  const upscalers: Upscaler[] = await service.get_upscalers();
+  const upscalers: Upscaler[] = await service.get_upscalers()
   return {
     data: new SlashCommandBuilder()
       .setName('generate')
@@ -253,7 +253,7 @@ export const generate = async (service: SDClient) => {
               return {
                 name: upscaler.name,
                 value: upscaler.name,
-              };
+              }
             }),
           ),
       )
@@ -266,24 +266,24 @@ export const generate = async (service: SDClient) => {
       )
       .addNumberOption((option) => option.setName('seed').setDescription('Seed').setRequired(false)),
     execute: async (interaction: ChatInputCommandInteraction) => {
-      const author_id: string = interaction.user.id;
-      const sdxl_support: boolean = await service.sdxl_support();
+      const author_id: string = interaction.user.id
+      const sdxl_support: boolean = await service.sdxl_support()
       /**
        * パラメータの取得
        * デフォルト設定を読み込めるようにしたい所存
        */
-      const prompt: string | null = interaction.options.getString('prompt');
+      const prompt: string | null = interaction.options.getString('prompt')
       const upscaler: UpscalerType =
         Object.values(UpscalerType).find((upscaler) => upscaler === interaction.options.getString('upscaler')) ??
-        UpscalerType.Latent;
-      const batch_size: number = interaction.options.getNumber('batch_size') ?? 4;
-      const seed: number = interaction.options.getNumber('seed') ?? -1;
+        UpscalerType.Latent
+      const batch_size: number = interaction.options.getNumber('batch_size') ?? 4
+      const seed: number = interaction.options.getNumber('seed') ?? -1
       /**
        * Hires fix.
        * SDXLをサポートしていたら未指定では1.0倍, そうでなければ1.5倍
        */
-      const hr_scale: number = interaction.options.getNumber('upscale') ?? (sdxl_support ? 1.0 : 1.5);
-      const enable_hr: boolean = hr_scale !== 1.0;
+      const hr_scale: number = interaction.options.getNumber('upscale') ?? (sdxl_support ? 1.0 : 1.5)
+      const enable_hr: boolean = hr_scale !== 1.0
 
       await generateImageAndReply(
         interaction,
@@ -296,7 +296,7 @@ export const generate = async (service: SDClient) => {
         seed,
         hr_scale,
         enable_hr,
-      );
+      )
     },
-  };
-};
+  }
+}
