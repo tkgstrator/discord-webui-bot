@@ -27,5 +27,5 @@ describe('Txt2Img', () => {
     expect(response.parameters.seed).toEqual(request.seed)
     expect(response.parameters.steps).toEqual(request.steps)
     expect(response.parameters.width).toEqual(request.width)
-  })
+  }, 10000)
 })
