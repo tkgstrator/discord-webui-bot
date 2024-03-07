@@ -1,15 +1,19 @@
+version: '3.9'
+
 services:
   app:
-    image: stable-diffusion-webui-bot
-    build: ./
-    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: webui-discord-bot
+    restart: always
     environment:
-      TZ: Asia/Tokyo
-      API_URL: $API_URL
-      API_VER: $API_VER
-      API_USER_ID: $API_USER_ID
-      API_PASSWORD: $API_PASSWORD
-      DISCORD_TOKEN: $DISCORD_TOKEN
-      GUILD_ID: $GUILD_ID
-      APPLICATION_ID: $APPLICATION_ID
-      CHANNEL_ID: $CHANNEL_ID
+      SDWEB_API_URL: $SDWEB_API_URL
+      SDWEB_API_VER: $SDWEB_API_VER
+      SDWEB_API_USER_ID: $SDWEB_API_USER_ID
+      SDWEB_API_PASSWORD: $SDWEB_API_PASSWORD
+      DISCORD_APPLICATION_ID: $DISCORD_APPLICATION_ID
+      DISCORD_APPLICATION_SECRET: $DISCORD_APPLICATION_SECRET
+      DISCORD_GUILD_ID: $DISCORD_GUILD_ID
+      CLOUDFLARE_ACCESS_CLIENT_ID: $CLOUDFLARE_ACCESS_CLIENT_ID
+      DISABLE_V8_COMPILE_CACHE: $DISABLE_V8_COMPILE_CACHE
