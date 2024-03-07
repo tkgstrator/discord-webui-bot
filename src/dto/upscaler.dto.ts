@@ -1,25 +1,18 @@
-import { Expose } from 'class-transformer';
+import { Expose } from 'class-transformer'
 
-export class Upscaler {
+export class SDAPIUpcaler {
   @Expose()
-  name: string;
-
-  @Expose()
-  model_name: null | string;
+  readonly name: string
 
   @Expose()
-  model_path: null | string;
+  readonly model_name: null | string
 
   @Expose()
-  model_url: null;
+  readonly model_path: null | string
 
   @Expose()
-  scale: number;
-}
+  readonly model_url: null
 
-export enum UpscalerType {
-  Latent = 'Latent',
-  Anime6B = 'R-ESRGAN 4x+ Anime6B',
-  Anime500000G = '4x_fatal_Anime_500000_G',
-  SwinIR = 'SwinIR_4x',
+  @Expose()
+  readonly scale: number
 }

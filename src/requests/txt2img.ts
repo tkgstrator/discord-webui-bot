@@ -1,45 +1,22 @@
-import { plainToInstance } from 'class-transformer';
+import { plainToInstance } from 'class-transformer'
 
-import { SamplerType } from '../dto/sampler.dto.js';
-import { Txt2ImgParams, Txt2ImgResponse } from '../dto/txt2img.dto.js';
-import { UpscalerType } from '../dto/upscaler.dto.js';
-import { Method, RequestType } from '../request.js';
+import { SDAPITxt2Img } from '@/dto/txt2img.dto'
+import { SDAPIPath } from '@/enum/path'
+import { Method, RequestType } from '@/request'
 
-export class Txt2ImgRequest implements RequestType {
-  readonly method: Method = Method.POST;
-  readonly path: string = 'txt2img';
+export class SDTxt2ImgRequest implements RequestType {
+  readonly method: Method = Method.POST
+  readonly path: SDAPIPath = SDAPIPath.TXT2IMG
   readonly headers: Record<string, string> = {
     'Content-Type': 'application/json',
-  };
-  readonly parameters: string | URLSearchParams | undefined;
+  }
+  readonly parameters: string | URLSearchParams | undefined
 
-  constructor(parameters: Partial<Txt2ImgParams>) {
-    /**
-     * Hires stepsは実ステップの半分
-     */
-    const params: Partial<Txt2ImgParams> = {
-      batch_size: 4,
-      cfg_scale: 12.0,
-      denoising_strength: 0.55,
-      height: 768,
-      hr_second_pass_steps: (parameters.steps || 20) >> 1,
-      hr_upscaler: UpscalerType.Latent,
-      sampler_name: SamplerType.DPM2MKarras,
-      save_images: true,
-      seed: -1,
-      send_images: true,
-      steps: 20,
-      width: 512,
-    };
-    this.parameters = JSON.stringify({
-      ...params,
-      ...parameters,
-    });
+  constructor(parameters: SDAPITxt2Img.Request) {
+    this.parameters = JSON.stringify(parameters)
   }
 
-  request(response: any): Txt2ImgResponse {
-    return plainToInstance(Txt2ImgResponse, response, {
-      excludeExtraneousValues: true,
-    });
+  request(response: any): SDAPITxt2Img.Response {
+    return plainToInstance(SDAPITxt2Img.Response, response, { excludeExtraneousValues: true })
   }
 }

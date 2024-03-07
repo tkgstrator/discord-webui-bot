@@ -1,21 +1,20 @@
-import { plainToInstance } from 'class-transformer';
+import { plainToInstance } from 'class-transformer'
 
-import { SDModel } from '../dto/models.dto.js';
-import { Method, RequestType } from '../request.js';
+import { SDAPISDModel } from '@/dto/sd_model.dto'
+import { SDAPIPath } from '@/enum/path'
+import { Method, RequestType } from '@/request'
 
 export class SDModelsRequest implements RequestType {
-  readonly method: Method = Method.GET;
-  readonly path: string = 'sd-models';
-  readonly headers: Record<string, string>;
-  readonly parameters: string | URLSearchParams | undefined;
+  readonly method: Method = Method.GET
+  readonly path: SDAPIPath = SDAPIPath.SD_MODELS
+  readonly headers: Record<string, string>
+  readonly parameters: string | URLSearchParams | undefined
 
   constructor() {
-    this.parameters = undefined;
+    this.parameters = undefined
   }
 
-  request(response: any): SDModel[] {
-    return response
-      .map((res: any) => plainToInstance(SDModel, res, { excludeExtraneousValues: true }))
-      .sort((a: SDModel, b: SDModel) => (a.model_name > b.model_name ? 1 : -1));
+  request(response: any): SDAPISDModel[] {
+    return response.map((res: any) => plainToInstance(SDAPISDModel, res, { excludeExtraneousValues: true }))
   }
 }

@@ -1,9 +1,9 @@
 export const Extension = {
   PNG: 'png',
   WEBP: 'webp',
-} as const;
+} as const
 
-export type Extension = (typeof Extension)[keyof typeof Extension];
+export type Extension = (typeof Extension)[keyof typeof Extension]
 
 /**
  *
@@ -20,5 +20,5 @@ export type Extension = (typeof Extension)[keyof typeof Extension];
 //     return new Blob([new Uint8Array(array)], { type })
 // }
 export const base64ToPng = (base64: string): Buffer => {
-  return Buffer.from(base64, 'base64');
-};
+  return Buffer.from(base64, 'base64')
+}

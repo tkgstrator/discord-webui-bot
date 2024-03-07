@@ -1,125 +1,125 @@
-import { Expose, Type } from 'class-transformer';
+import { Expose, Type } from 'class-transformer'
 
 class Device {
   @Expose()
-  active: string;
+  active: string
 
   @Expose()
-  dtype: string;
+  dtype: string
 
   @Expose()
-  vae: string;
+  vae: string
 
   @Expose()
-  unet: string;
+  unet: string
 }
 
 class SystemInfoGPU {
   @Expose()
-  device: string;
+  device: string
 
   @Expose()
-  cuda: string;
+  cuda: string
 
   @Expose()
-  cudnn: number;
+  cudnn: number
 
   @Expose()
-  driver: string;
+  driver: string
 }
 
 class Events {
   @Expose()
-  retries: number;
+  retries: number
 
   @Expose()
-  oom: number;
+  oom: number
 }
 
 class RAMClass {
   @Expose()
-  free: number;
+  free: number
 
   @Expose()
-  used: number;
+  used: number
 
   @Expose()
-  total: number;
+  total: number
 }
 
 class GPU {
   @Expose()
-  current: number;
+  current: number
 
   @Expose()
-  peak: number;
+  peak: number
 }
 
 class Platform {
   @Expose()
-  arch: string;
+  arch: string
 
   @Expose()
-  cpu: string;
+  cpu: string
 
   @Expose()
-  system: string;
+  system: string
 
   @Expose()
-  release: string;
+  release: string
 
   @Expose()
-  python: string;
+  python: string
 }
 
 class Memory {
   @Expose()
   @Type(() => RAMClass)
-  ram: RAMClass;
+  ram: RAMClass
 
   @Expose()
   @Type(() => RAMClass)
-  gpu: RAMClass;
+  gpu: RAMClass
 
   @Expose({ name: 'gpu-active' })
   @Type(() => GPU)
-  gpu_active: GPU;
+  gpu_active: GPU
 
   @Expose({ name: 'gpu-allocated' })
   @Type(() => GPU)
-  gpu_allocated: GPU;
+  gpu_allocated: GPU
 
   @Expose({ name: 'gpu-reserved' })
   @Type(() => GPU)
-  gpu_reserved: GPU;
+  gpu_reserved: GPU
 
   @Expose({ name: 'gpu-inactive' })
   @Type(() => GPU)
-  gpu_inactive: GPU;
+  gpu_inactive: GPU
 
   @Expose()
   @Type(() => Events)
-  events: Events;
+  events: Events
 
   @Expose()
-  utilization: number;
+  utilization: number
 }
 
 class State {
   @Expose()
-  started: string;
+  started: string
 
   @Expose()
-  step: string;
+  step: string
 
   @Expose()
-  jobs: string;
+  jobs: string
 
   @Expose()
-  flags: string;
+  flags: string
 
   @Expose()
-  job: string;
+  job: string
 
   // @Expose({ name: "text-info" })
   // text_info: null;
@@ -127,61 +127,61 @@ class State {
 
 class Version {
   @Expose()
-  app: string;
+  app: string
 
   @Expose()
-  updated: Date;
+  updated: Date
 
   @Expose()
-  hash: string;
+  hash: string
 
   @Expose()
-  url: string;
+  url: string
 }
 
 export class SystemInfoResponse {
   @Expose()
   @Type(() => Version)
-  version: Version;
+  version: Version
 
   @Expose()
-  uptime: string;
+  uptime: string
 
   @Expose()
-  timestamp: string;
+  timestamp: string
 
   @Expose()
   @Type(() => State)
-  state: State;
+  state: State
 
   @Expose()
   @Type(() => Memory)
-  memory: Memory;
+  memory: Memory
 
   @Expose()
   @Type(() => Platform)
-  platform: Platform;
+  platform: Platform
 
   @Expose()
-  torch: string;
+  torch: string
 
   @Expose()
   @Type(() => SystemInfoGPU)
-  gpu: SystemInfoGPU;
+  gpu: SystemInfoGPU
 
   @Expose()
-  optimizations: string[];
+  optimizations: string[]
 
   @Expose()
-  crossatention: string;
+  crossatention: string
 
   @Expose()
   @Type(() => Device)
-  device: Device;
+  device: Device
 
   @Expose()
-  backend: string;
+  backend: string
 
   @Expose()
-  pipeline: string;
+  pipeline: string
 }

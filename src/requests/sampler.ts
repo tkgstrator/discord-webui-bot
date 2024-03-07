@@ -1,13 +1,13 @@
-import { plainToInstance } from 'class-transformer';
+import { plainToInstance } from 'class-transformer'
 
-import { Sampler } from '../dto/sampler.dto.js';
-import { Method, RequestType } from '../request.js';
+import { Sampler } from '../dto/sampler.dto.js'
+import { Method, RequestType } from '../request.js'
 
 export class SamplerRequest implements RequestType {
-  readonly method: Method = Method.GET;
-  readonly path: string = 'samplers';
-  readonly headers: Record<string, string>;
-  readonly parameters: string | URLSearchParams | undefined;
+  readonly method: Method = Method.GET
+  readonly path: string = 'samplers'
+  readonly headers: Record<string, string>
+  readonly parameters: string | URLSearchParams | undefined
 
   constructor() {}
 
@@ -18,6 +18,6 @@ export class SamplerRequest implements RequestType {
         excludeExtraneousValues: true,
         exposeUnsetFields: false,
       }),
-    );
+    )
   }
 }

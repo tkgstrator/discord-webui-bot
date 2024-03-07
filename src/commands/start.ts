@@ -1,11 +1,11 @@
-import { ChatInputCommandInteraction, SlashCommandBuilder, TextChannel } from 'discord.js';
+import { ChatInputCommandInteraction, SlashCommandBuilder, TextChannel } from 'discord.js'
 
-import { UpscalerType } from '../dto/upscaler.dto.js';
-import prompts from '../prompts/prompts.json' assert { type: 'json' };
+import { UpscalerType } from '../dto/upscaler.dto.js'
+import prompts from '../prompts/prompts.json' assert { type: 'json' }
 
-import { generateImageAndReply } from './generate.js';
+import { generateImageAndReply } from './generate.js'
 
-import { SDClient } from '~/client';
+import { SDClient } from '~/client'
 
 export const start = {
   data: new SlashCommandBuilder()
@@ -18,11 +18,11 @@ export const start = {
       option.setName('batch_size').setDescription('Batch size').setMaxValue(100).setMinValue(1),
     ),
   execute: async (interaction: ChatInputCommandInteraction, channel: TextChannel, service: SDClient) => {
-    await interaction.reply({ content: 'Start generating', ephemeral: true });
-    const count: number = interaction.options.getInteger('count') ?? 1;
-    const batch_size: number = interaction.options.getInteger('batch_size') ?? 4;
+    await interaction.reply({ content: 'Start generating', ephemeral: true })
+    const count: number = interaction.options.getInteger('count') ?? 1
+    const batch_size: number = interaction.options.getInteger('batch_size') ?? 4
     Array.from(Array(count).keys()).forEach(async (count) => {
-      const prompt: string = prompts[Math.floor(Math.random() * prompts.length)];
+      const prompt: string = prompts[Math.floor(Math.random() * prompts.length)]
       const size = [
         {
           height: 768,
@@ -32,7 +32,7 @@ export const start = {
           height: 512,
           width: 768,
         },
-      ][Math.floor(Math.random() * 2)];
+      ][Math.floor(Math.random() * 2)]
       setTimeout(async () => {
         await generateImageAndReply(
           channel,
@@ -47,16 +47,16 @@ export const start = {
           true,
           size.width,
           size.height,
-        );
-      }, 5000);
-    });
-    await interaction.deleteReply();
+        )
+      }, 5000)
+    })
+    await interaction.deleteReply()
   },
-};
+}
 
 export const stop = {
   data: new SlashCommandBuilder().setName('stop').setDescription('Stop generating'),
   execute: async (interaction: ChatInputCommandInteraction, channel: TextChannel, service: SDClient) => {
-    await interaction.reply('Stop generating');
+    await interaction.reply('Stop generating')
   },
-};
+}

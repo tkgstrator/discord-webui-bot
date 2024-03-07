@@ -1,0 +1,116 @@
+{
+  "alwayson_scripts": {
+    "API payload": {
+      "args": []
+    },
+    "Danbooru Tags Upsampler": {
+      "args": [
+        true,
+        "long",
+        "",
+        -1.0,
+        "After applying other prompt processings",
+        false,
+        "",
+        1.5,
+        1,
+        1,
+        20,
+        1
+      ]
+    },
+    "Dynamic Prompts v2.17.1": {
+      "args": [
+        true,
+        false,
+        1,
+        false,
+        false,
+        false,
+        1.1,
+        1.5,
+        100,
+        0.7,
+        false,
+        false,
+        true,
+        false,
+        false,
+        0,
+        "Gustavosta/MagicPrompt-Stable-Diffusion",
+        ""
+      ]
+    },
+    "Extra options": {
+      "args": []
+    },
+    "Hypertile": {
+      "args": []
+    },
+    "Refiner": {
+      "args": [
+        false,
+        "",
+        0.8
+      ]
+    },
+    "Seed": {
+      "args": [
+        -1,
+        false,
+        -1,
+        0,
+        0,
+        0
+      ]
+    },
+    "TensorRT": {
+      "args": []
+    }
+  },
+  "batch_size": 2,
+  "cfg_scale": 7,
+  "comments": {},
+  "disable_extra_networks": false,
+  "do_not_save_grid": false,
+  "do_not_save_samples": false,
+  "enable_hr": false,
+  "height": 1216,
+  "hr_negative_prompt": "",
+  "hr_prompt": "",
+  "hr_resize_x": 0,
+  "hr_resize_y": 0,
+  "hr_scale": 1.5,
+  "hr_second_pass_steps": 0,
+  "hr_upscaler": "R-ESRGAN 4x+ Anime6B",
+  "n_iter": 1,
+  "negative_prompt": "",
+  "override_settings": {},
+  "override_settings_restore_afterwards": true,
+  "prompt": "1girl, solo, best quality, masterpiece",
+  "restore_faces": false,
+  "s_churn": 0,
+  "s_min_uncond": 0,
+  "s_noise": 1,
+  "s_tmax": null,
+  "s_tmin": 0,
+  "sampler_name": "DPM++ 2M Karras",
+  "send_images": true,
+  "save_images": true,
+  "script_args": [],
+  "script_name": null,
+  "seed": -1,
+  "seed_enable_extras": true,
+  "seed_resize_from_h": -1,
+  "seed_resize_from_w": -1,
+  "steps": 20,
+  "styles": [
+    "Negative for AnimagineXL",
+    "Best quality",
+    "Masterpiece"
+  ],
+  "subseed": -1,
+  "subseed_strength": 0,
+  "tiling": false,
+  "width": 832
+}

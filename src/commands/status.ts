@@ -1,12 +1,12 @@
-import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
+import { SlashCommandBuilder, EmbedBuilder } from 'discord.js'
 
-import { service } from '../index.js';
-import '../extension.js';
+import { service } from '../index.js'
+import '../extension.js'
 
 export const status = {
   data: new SlashCommandBuilder().setName('status').setDescription('Show current status'),
   execute: async (interaction: any) => {
-    const response = await service.get_options();
+    const response = await service.get_options()
     const content = new EmbedBuilder()
       .setColor('#0099FF')
       .setTitle('Generate options')
@@ -33,7 +33,7 @@ export const status = {
           value: response.sd_vae!.toCode(),
         },
       )
-      .setTimestamp();
-    await interaction.reply({ embeds: [content] });
+      .setTimestamp()
+    await interaction.reply({ embeds: [content] })
   },
-};
+}
