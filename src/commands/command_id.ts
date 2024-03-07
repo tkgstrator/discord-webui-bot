@@ -5,6 +5,9 @@ export namespace DiscordCommandId {
     slash = 'imagine',
     modal = 'modal',
     prompt = 'prompt',
+    retry = 'retry',
+    original = 'original',
+    random = 'random',
     negative_prompt = 'negative_prompt',
   }
 }

@@ -1,4 +1,5 @@
 import {
+  ButtonInteraction,
   ChatInputCommandInteraction,
   Client,
   Events,
@@ -32,6 +33,16 @@ client.on(Events.InteractionCreate, async (interaction) => {
      * ボタンコマンド
      */
     if (interaction.isButton()) {
+      switch (interaction.customId) {
+        case DiscordCommandId.Txt2Img.retry:
+          DiscordCommnadManager.txt2img.retry(interaction as ButtonInteraction)
+          break
+        case DiscordCommandId.Txt2Img.original:
+          DiscordCommnadManager.txt2img.retry(interaction as ButtonInteraction)
+          break
+        default:
+          break
+      }
     }
   }
   if (interaction.isModalSubmit()) {

@@ -68,7 +68,7 @@
       "args": []
     }
   },
-  "batch_size": 1,
+  "batch_size": 2,
   "cfg_scale": 7,
   "comments": {},
   "disable_extra_networks": false,
