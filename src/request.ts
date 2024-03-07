@@ -1,4 +1,4 @@
-import { SDAPIPath } from './enum/path'
+import { SDAPIPath } from '@/enum/path'
 
 export enum Method {
   GET = 'GET',

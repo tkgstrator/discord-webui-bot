@@ -1,11 +1,12 @@
 import { plainToInstance } from 'class-transformer'
 
-import { SystemInfoResponse } from '../dto/system.info.dto.js'
-import { Method, RequestType } from '../request.js'
+import { SystemInfoResponse } from '@/dto/system.info.dto.js'
+import { SDAPIPath } from '@/enum/path'
+import { Method, RequestType } from '@/request.js'
 
 export class SystemInfoRequest implements RequestType {
   readonly method: Method = Method.GET
-  readonly path: string = 'system-info/status'
+  readonly path: SDAPIPath = SDAPIPath.SYSTEM_STATUS
   readonly headers: Record<string, string>
   readonly parameters: string | URLSearchParams | undefined
 
